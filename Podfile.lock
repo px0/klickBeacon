@@ -1,0 +1,13 @@
+PODS:
+  - BeaconMan (0.1.0)
+  - ObjectiveSugar (1.1.0)
+
+DEPENDENCIES:
+  - BeaconMan
+  - ObjectiveSugar
+
+SPEC CHECKSUMS:
+  BeaconMan: c32d8d3265ec42623d4b1b4b037fafd613247d8c
+  ObjectiveSugar: fed588577bcf9733546aeaa089de444e4bab9a52
+
+COCOAPODS: 0.30.0

@@ -1,0 +1,533 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		27246B6FEC734CFBAF00B3A7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 192433DCCAA44F028ABB61AA /* libPods.a */; };
+		6934DAE118E856EA00CB5602 /* KBMWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6934DAE018E856EA00CB5602 /* KBMWebViewViewController.m */; };
+		6934DAE318E8CD0D00CB5602 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6934DAE218E8CD0D00CB5602 /* CoreBluetooth.framework */; };
+		6934DAE718E8CD9900CB5602 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6934DAE618E8CD9900CB5602 /* Settings.bundle */; };
+		699D731718E7983C0038B02A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D731618E7983C0038B02A /* Foundation.framework */; };
+		699D731918E7983C0038B02A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D731818E7983C0038B02A /* CoreGraphics.framework */; };
+		699D731B18E7983C0038B02A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D731A18E7983C0038B02A /* UIKit.framework */; };
+		699D732118E7983C0038B02A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 699D731F18E7983C0038B02A /* InfoPlist.strings */; };
+		699D732318E7983C0038B02A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D732218E7983C0038B02A /* main.m */; };
+		699D732718E7983C0038B02A /* KBMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D732618E7983C0038B02A /* KBMAppDelegate.m */; };
+		699D732A18E7983C0038B02A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699D732818E7983C0038B02A /* Main.storyboard */; };
+		699D732D18E7983C0038B02A /* KBMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D732C18E7983C0038B02A /* KBMViewController.m */; };
+		699D732F18E7983C0038B02A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699D732E18E7983C0038B02A /* Images.xcassets */; };
+		699D733618E7983C0038B02A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D733518E7983C0038B02A /* XCTest.framework */; };
+		699D733718E7983D0038B02A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D731618E7983C0038B02A /* Foundation.framework */; };
+		699D733818E7983D0038B02A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D731A18E7983C0038B02A /* UIKit.framework */; };
+		699D734018E7983D0038B02A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 699D733E18E7983D0038B02A /* InfoPlist.strings */; };
+		699D734218E7983D0038B02A /* KlickBaconTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D734118E7983D0038B02A /* KlickBaconTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		699D733918E7983D0038B02A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 699D730B18E7983C0038B02A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 699D731218E7983C0038B02A;
+			remoteInfo = KlickBacon;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		192433DCCAA44F028ABB61AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BFD472A3D7C4E7CBCF360BC /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		6934DADF18E856EA00CB5602 /* KBMWebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBMWebViewViewController.h; sourceTree = "<group>"; };
+		6934DAE018E856EA00CB5602 /* KBMWebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBMWebViewViewController.m; sourceTree = "<group>"; };
+		6934DAE218E8CD0D00CB5602 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		6934DAE618E8CD9900CB5602 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		699D731318E7983C0038B02A /* KlickBacon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KlickBacon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		699D731618E7983C0038B02A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		699D731818E7983C0038B02A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		699D731A18E7983C0038B02A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		699D731E18E7983C0038B02A /* KlickBacon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KlickBacon-Info.plist"; sourceTree = "<group>"; };
+		699D732018E7983C0038B02A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		699D732218E7983C0038B02A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		699D732418E7983C0038B02A /* KlickBacon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KlickBacon-Prefix.pch"; sourceTree = "<group>"; };
+		699D732518E7983C0038B02A /* KBMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBMAppDelegate.h; sourceTree = "<group>"; };
+		699D732618E7983C0038B02A /* KBMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBMAppDelegate.m; sourceTree = "<group>"; };
+		699D732918E7983C0038B02A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		699D732B18E7983C0038B02A /* KBMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBMViewController.h; sourceTree = "<group>"; };
+		699D732C18E7983C0038B02A /* KBMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBMViewController.m; sourceTree = "<group>"; };
+		699D732E18E7983C0038B02A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		699D733418E7983C0038B02A /* KlickBaconTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KlickBaconTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		699D733518E7983C0038B02A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		699D733D18E7983D0038B02A /* KlickBaconTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KlickBaconTests-Info.plist"; sourceTree = "<group>"; };
+		699D733F18E7983D0038B02A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		699D734118E7983D0038B02A /* KlickBaconTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KlickBaconTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		699D731018E7983C0038B02A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6934DAE318E8CD0D00CB5602 /* CoreBluetooth.framework in Frameworks */,
+				699D731918E7983C0038B02A /* CoreGraphics.framework in Frameworks */,
+				699D731B18E7983C0038B02A /* UIKit.framework in Frameworks */,
+				699D731718E7983C0038B02A /* Foundation.framework in Frameworks */,
+				27246B6FEC734CFBAF00B3A7 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		699D733118E7983C0038B02A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699D733618E7983C0038B02A /* XCTest.framework in Frameworks */,
+				699D733818E7983D0038B02A /* UIKit.framework in Frameworks */,
+				699D733718E7983D0038B02A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		699D730A18E7983C0038B02A = {
+			isa = PBXGroup;
+			children = (
+				699D731C18E7983C0038B02A /* KlickBacon */,
+				699D733B18E7983D0038B02A /* KlickBaconTests */,
+				699D731518E7983C0038B02A /* Frameworks */,
+				699D731418E7983C0038B02A /* Products */,
+				5BFD472A3D7C4E7CBCF360BC /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		699D731418E7983C0038B02A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				699D731318E7983C0038B02A /* KlickBacon.app */,
+				699D733418E7983C0038B02A /* KlickBaconTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		699D731518E7983C0038B02A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6934DAE218E8CD0D00CB5602 /* CoreBluetooth.framework */,
+				699D731618E7983C0038B02A /* Foundation.framework */,
+				699D731818E7983C0038B02A /* CoreGraphics.framework */,
+				699D731A18E7983C0038B02A /* UIKit.framework */,
+				699D733518E7983C0038B02A /* XCTest.framework */,
+				192433DCCAA44F028ABB61AA /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		699D731C18E7983C0038B02A /* KlickBacon */ = {
+			isa = PBXGroup;
+			children = (
+				699D732518E7983C0038B02A /* KBMAppDelegate.h */,
+				699D732618E7983C0038B02A /* KBMAppDelegate.m */,
+				699D732818E7983C0038B02A /* Main.storyboard */,
+				699D732B18E7983C0038B02A /* KBMViewController.h */,
+				699D732C18E7983C0038B02A /* KBMViewController.m */,
+				6934DAE618E8CD9900CB5602 /* Settings.bundle */,
+				6934DADF18E856EA00CB5602 /* KBMWebViewViewController.h */,
+				6934DAE018E856EA00CB5602 /* KBMWebViewViewController.m */,
+				699D732E18E7983C0038B02A /* Images.xcassets */,
+				699D731D18E7983C0038B02A /* Supporting Files */,
+			);
+			path = KlickBacon;
+			sourceTree = "<group>";
+		};
+		699D731D18E7983C0038B02A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				699D731E18E7983C0038B02A /* KlickBacon-Info.plist */,
+				699D731F18E7983C0038B02A /* InfoPlist.strings */,
+				699D732218E7983C0038B02A /* main.m */,
+				699D732418E7983C0038B02A /* KlickBacon-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		699D733B18E7983D0038B02A /* KlickBaconTests */ = {
+			isa = PBXGroup;
+			children = (
+				699D734118E7983D0038B02A /* KlickBaconTests.m */,
+				699D733C18E7983D0038B02A /* Supporting Files */,
+			);
+			path = KlickBaconTests;
+			sourceTree = "<group>";
+		};
+		699D733C18E7983D0038B02A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				699D733D18E7983D0038B02A /* KlickBaconTests-Info.plist */,
+				699D733E18E7983D0038B02A /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		699D731218E7983C0038B02A /* KlickBacon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 699D734518E7983D0038B02A /* Build configuration list for PBXNativeTarget "KlickBacon" */;
+			buildPhases = (
+				D54BA36D39234D499BE54221 /* Check Pods Manifest.lock */,
+				699D730F18E7983C0038B02A /* Sources */,
+				699D731018E7983C0038B02A /* Frameworks */,
+				699D731118E7983C0038B02A /* Resources */,
+				E76B3376C6AC4F5BA028BFF3 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KlickBacon;
+			productName = KlickBacon;
+			productReference = 699D731318E7983C0038B02A /* KlickBacon.app */;
+			productType = "com.apple.product-type.application";
+		};
+		699D733318E7983C0038B02A /* KlickBaconTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 699D734818E7983D0038B02A /* Build configuration list for PBXNativeTarget "KlickBaconTests" */;
+			buildPhases = (
+				699D733018E7983C0038B02A /* Sources */,
+				699D733118E7983C0038B02A /* Frameworks */,
+				699D733218E7983C0038B02A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				699D733A18E7983D0038B02A /* PBXTargetDependency */,
+			);
+			name = KlickBaconTests;
+			productName = KlickBaconTests;
+			productReference = 699D733418E7983C0038B02A /* KlickBaconTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		699D730B18E7983C0038B02A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = KBM;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Klick;
+				TargetAttributes = {
+					699D733318E7983C0038B02A = {
+						TestTargetID = 699D731218E7983C0038B02A;
+					};
+				};
+			};
+			buildConfigurationList = 699D730E18E7983C0038B02A /* Build configuration list for PBXProject "KlickBacon" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 699D730A18E7983C0038B02A;
+			productRefGroup = 699D731418E7983C0038B02A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				699D731218E7983C0038B02A /* KlickBacon */,
+				699D733318E7983C0038B02A /* KlickBaconTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		699D731118E7983C0038B02A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6934DAE718E8CD9900CB5602 /* Settings.bundle in Resources */,
+				699D732F18E7983C0038B02A /* Images.xcassets in Resources */,
+				699D732118E7983C0038B02A /* InfoPlist.strings in Resources */,
+				699D732A18E7983C0038B02A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		699D733218E7983C0038B02A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699D734018E7983D0038B02A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D54BA36D39234D499BE54221 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E76B3376C6AC4F5BA028BFF3 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		699D730F18E7983C0038B02A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699D732318E7983C0038B02A /* main.m in Sources */,
+				699D732D18E7983C0038B02A /* KBMViewController.m in Sources */,
+				699D732718E7983C0038B02A /* KBMAppDelegate.m in Sources */,
+				6934DAE118E856EA00CB5602 /* KBMWebViewViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		699D733018E7983C0038B02A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699D734218E7983D0038B02A /* KlickBaconTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		699D733A18E7983D0038B02A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 699D731218E7983C0038B02A /* KlickBacon */;
+			targetProxy = 699D733918E7983D0038B02A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		699D731F18E7983C0038B02A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				699D732018E7983C0038B02A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		699D732818E7983C0038B02A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				699D732918E7983C0038B02A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		699D733E18E7983D0038B02A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				699D733F18E7983D0038B02A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		699D734318E7983D0038B02A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		699D734418E7983D0038B02A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		699D734618E7983D0038B02A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BFD472A3D7C4E7CBCF360BC /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KlickBacon/KlickBacon-Prefix.pch";
+				INFOPLIST_FILE = "KlickBacon/KlickBacon-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		699D734718E7983D0038B02A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BFD472A3D7C4E7CBCF360BC /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KlickBacon/KlickBacon-Prefix.pch";
+				INFOPLIST_FILE = "KlickBacon/KlickBacon-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		699D734918E7983D0038B02A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KlickBacon.app/KlickBacon";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KlickBacon/KlickBacon-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "KlickBaconTests/KlickBaconTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		699D734A18E7983D0038B02A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KlickBacon.app/KlickBacon";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KlickBacon/KlickBacon-Prefix.pch";
+				INFOPLIST_FILE = "KlickBaconTests/KlickBaconTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		699D730E18E7983C0038B02A /* Build configuration list for PBXProject "KlickBacon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				699D734318E7983D0038B02A /* Debug */,
+				699D734418E7983D0038B02A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		699D734518E7983D0038B02A /* Build configuration list for PBXNativeTarget "KlickBacon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				699D734618E7983D0038B02A /* Debug */,
+				699D734718E7983D0038B02A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		699D734818E7983D0038B02A /* Build configuration list for PBXNativeTarget "KlickBaconTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				699D734918E7983D0038B02A /* Debug */,
+				699D734A18E7983D0038B02A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 699D730B18E7983C0038B02A /* Project object */;
+}

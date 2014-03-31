@@ -1,0 +1,1 @@
+../../BeaconMan/Project/BeaconMan/Classes/BCMBeaconNotification.h
