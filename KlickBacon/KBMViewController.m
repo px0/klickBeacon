@@ -9,6 +9,7 @@
 #import "KBMViewController.h"
 #import "KBMWebViewViewController.h"
 #import "BCMBeaconManager.h"
+#include "AFNetworking.h"
 
 @interface KBMViewController ()
 @property (strong, nonatomic) NSURL *url;
@@ -83,12 +84,26 @@
         NSString *uuid = beacon.proximityUUID.UUIDString;
         NSString *major = [NSString stringWithFormat:@"%@", beacon.major];
         NSString *minor = [NSString stringWithFormat:@"%@", beacon.minor];
+	
     [self mlog:(@"Beacon found!")];
-    [self mlog: [NSString stringWithFormat:@"uuid: %@, major: %@, minor: %@, promixity: %ld", uuid, major, minor, beacon.proximity]];
+    [self mlog: [NSString stringWithFormat:@"uuid: %@, major: %@, minor: %@, promixity: %d", uuid, major, minor, beacon.proximity]];
     
     if (beacon.proximity == CLProximityImmediate) {
         if (!self.vc) {
-            [self openURL:@"http://www.funcage.com/"];
+			
+			NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.serverip]];
+			AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+			NSString *restAPI = [NSString stringWithFormat:@"/api/beacon/%@/%@/%@", uuid, major, minor];
+
+			[manager GET:restAPI parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+				NSLog(@"JSON: %@", responseObject);
+			} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+				NSLog(@"Error: %@", error);
+				[self openURL:@"http://www.funcage.com/"];
+
+			}];
+
+			
         }
     } else {
         if (self.vc) {
