@@ -10,7 +10,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>D57092AC-DFAA-446C-8EF3-C81AA22815B5</string>
+			<string>2F73D96D-F86E-4F95-B88D-694CEFE5837F</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -28,7 +28,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>192.168.79.104:4567</string>
+			<string>mcaron.klick.com:8081</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>

@@ -17,7 +17,10 @@
 
 - (void)dismissViewController
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+	if (![self.presentedViewController isBeingDismissed])
+	{
+		[self dismissViewControllerAnimated:YES completion:nil];
+	}
 }
 
 - (void)viewDidLoad
@@ -32,6 +35,18 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+	NSLog(@"%@", request);
+	
+	return YES;
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+	NSLog(@"%@", [error description]);
 }
 
 /*

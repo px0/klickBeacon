@@ -18,6 +18,8 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLBeaconRegion *region;
 @property (strong, nonatomic) KBMWebViewViewController *vc;
+@property (strong, nonatomic) CLBeacon *currentBeacon;
+@property BOOL currentlyPresenting;
 @end
 
 @implementation KBMViewController
@@ -25,32 +27,37 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	self.currentlyPresenting = NO;
+	
         // Get user preference
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uuid = [[NSUUID alloc] initWithUUIDString:[defaults objectForKey:@"uuid"]];
     self.serverip = [defaults objectForKey:@"serverip"];
-    
-    self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.uuid identifier:@"TestBeacon"];
-        // Initialize location manager and set ourselves as the delegate
+
+	self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.uuid identifier:@"TestBeacon"];
+	self.region.notifyEntryStateOnDisplay = YES;
+	
+	// Initialize location manager and set ourselves as the delegate
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     
-        // Tell location manager to start monitoring for the beacon region
+	// Tell location manager to start monitoring for the beacon region
     [self.locationManager startMonitoringForRegion:self.region];
+	[self.locationManager requestStateForRegion:self.region];
+    [self.locationManager startRangingBeaconsInRegion:self.region];
+	
+	[self mlog:(@"starting monitoring")];
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
-    [super viewDidAppear:animated];
-	// Do any additional setup after loading the view, typically from a nib.
-//    [self openURL:@"http://www.funcage.com/"];
-    
-
+	[self mlog:[NSString stringWithFormat:@"Error: %@", error]];
 }
+
 - (void)locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region
 {
-    [self.locationManager startRangingBeaconsInRegion:self.region];
     [self mlog:@"enter region!!!"];
 }
 
@@ -62,6 +69,7 @@
 
 - (void) openURL: (NSString *)urlString {
     self.url = [NSURL URLWithString:urlString];
+	[self mlog:[NSString stringWithFormat:@"opening url: %@", urlString]];
     [self performSegueWithIdentifier:@"presentWebview" sender:self];
 }
 
@@ -70,8 +78,30 @@
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateStyle:NSDateFormatterNoStyle];
     [dateFormatter setDateFormat:@"HH:mm:ss"];
-    
-    self.textview.text = [NSString stringWithFormat:@"%@: %@\n%@", [dateFormatter stringFromDate: now], string, self.textview.text];
+    NSString *debugString = [NSString stringWithFormat:@"%@: %@", [dateFormatter stringFromDate: now], string];
+	NSLog(@"%@", debugString);
+    self.textview.text = [NSString stringWithFormat:@"%@\n%@", debugString, self.textview.text];
+}
+
+- (void)visitBeaconWebsite:(NSString *)minor major:(NSString *)major uuid:(NSString *)uuid
+{
+	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.serverip]];
+	AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+	NSString *restAPI = [NSString stringWithFormat:@"/beacon/%@/%@/%@", uuid, major, minor];
+	
+	[self mlog:@"performing call to webservice"];
+	
+	[manager GET:restAPI parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		
+		[self mlog:[NSString stringWithFormat:@"JSON: %@", responseObject]];
+
+		NSDictionary *response = (NSDictionary *)responseObject;
+		NSString *urlString = response[@"url"];
+		[self openURL:urlString];
+		
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		[self mlog:[NSString stringWithFormat:@"Error: %@", error]];
+	}];
 }
 
 -(void)locationManager:(CLLocationManager*)manager
@@ -79,49 +109,50 @@
               inRegion:(CLBeaconRegion*)region
 {
     CLBeacon *beacon = [beacons firstObject];
-    
-        // You can retrieve the beacon data from its properties
-        NSString *uuid = beacon.proximityUUID.UUIDString;
-        NSString *major = [NSString stringWithFormat:@"%@", beacon.major];
-        NSString *minor = [NSString stringWithFormat:@"%@", beacon.minor];
+	self.currentBeacon = self.currentBeacon ?: beacon;
 	
-    [self mlog:(@"Beacon found!")];
-    [self mlog: [NSString stringWithFormat:@"uuid: %@, major: %@, minor: %@, promixity: %d", uuid, major, minor, beacon.proximity]];
+	NSString *uuid = beacon.proximityUUID.UUIDString;
+	NSString *major = [NSString stringWithFormat:@"%@", beacon.major];
+	NSString *minor = [NSString stringWithFormat:@"%@", beacon.minor];
+	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)beacon.proximity]];
     
-    if (beacon.proximity == CLProximityImmediate) {
-        if (!self.vc) {
-			
-			NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.serverip]];
-			AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
-			NSString *restAPI = [NSString stringWithFormat:@"/api/beacon/%@/%@/%@", uuid, major, minor];
-
-			[manager GET:restAPI parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-				NSLog(@"JSON: %@", responseObject);
-			} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-				NSLog(@"Error: %@", error);
-				[self openURL:@"http://www.funcage.com/"];
-
-			}];
-
-			
+    if (beacon != nil
+		&& ([self.currentBeacon.minor intValue] == [beacon.minor intValue]) //todo: check everything
+		&& (beacon.proximity == CLProximityImmediate
+			|| beacon.proximity == CLProximityNear
+			|| beacon.proximity == CLProximityFar
+			)
+		)
+	{
+        if (!self.currentlyPresenting) {
+			self.currentlyPresenting = YES;
+			[self mlog:@"Presenting!"];
+			[self visitBeaconWebsite:minor major:major uuid:uuid];
         }
+		else {
+			// we are still presenting, so we don't do anything
+		}
+			
     } else {
-        if (self.vc) {
-            [self.vc dismissViewController];
-            self.vc = nil;
-        }
-    }
+		[self.vc dismissViewControllerAnimated:YES completion:^{
+			self.currentBeacon = nil;
+			self.currentlyPresenting = NO;
+		}];
+	}
 }
 
  #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
  {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
-     self.vc = [segue destinationViewController];
-     self.vc.url = self.url;
+	 if (self.vc) {
+		 [self.vc dismissViewControllerAnimated:YES completion:^{
+			 self.currentBeacon = nil;
+			 self.currentlyPresenting = NO;
+		 }];
+	 }
+		 
+		 self.vc = [segue destinationViewController];
+		 self.vc.url = self.url;
  }
 
 @end
