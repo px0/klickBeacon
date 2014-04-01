@@ -120,7 +120,7 @@
 	if (beacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)beacon.proximity]];
 	
 	// We want a stable connection, so we're checking that we're getting the same signal at least twice before we do anything
-	if (! [lastBeacon isEqualAndSameDistanceToBeacon:beacon]) {
+	if (! [lastBeacon isEqualAndInRangeToBeacon:beacon]) {
 		lastBeacon = beacon;
 		return;
 	}
@@ -129,10 +129,7 @@
     
     if (beacon != nil
 		&& ([self.currentBeacon isEqualToBeacon:beacon])
-		&& (beacon.proximity == CLProximityImmediate
-			|| beacon.proximity == CLProximityNear
-			|| beacon.proximity == CLProximityFar
-			)
+		&& beacon.isInRange
 		)
 	{
         if (!self.currentlyPresenting) {

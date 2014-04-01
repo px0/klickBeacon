@@ -10,6 +10,6 @@
 
 @interface CLBeacon (equal)
 - (BOOL) isEqualToBeacon: (CLBeacon *)otherBeacon;
-- (BOOL) isEqualAndSameDistanceToBeacon: (CLBeacon *)otherBeacon;
-
+- (BOOL) isEqualAndInRangeToBeacon: (CLBeacon *)otherBeacon;
+- (BOOL) isInRange;
 @end

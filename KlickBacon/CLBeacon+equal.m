@@ -21,10 +21,26 @@
 	return NO;
 }
 
-- (BOOL) isEqualAndSameDistanceToBeacon: (CLBeacon *)otherBeacon
+- (BOOL) isEqualAndInRangeToBeacon: (CLBeacon *)otherBeacon
 {
+	// we use this to check if the beacon is the same, but we don't want to fail the test
+	// if we're going from, say, CLProximityImmediate to CLProximityNear on the same token,
+	// that's why we're checking if they're in the same range and equal
 	if ([self isEqualToBeacon:otherBeacon]
-		&& (self.proximity == otherBeacon.proximity)) {
+		&& self.isInRange
+		&& otherBeacon.isInRange ){
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL) isInRange
+{
+	if (self.proximity == CLProximityImmediate
+		 || self.proximity == CLProximityNear
+		 || self.proximity == CLProximityFar
+		) {
 		return YES;
 	}
 	
