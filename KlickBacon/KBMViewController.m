@@ -10,6 +10,7 @@
 #import "KBMWebViewViewController.h"
 #import "BCMBeaconManager.h"
 #include "AFNetworking.h"
+#include "CLBeacon+equal.h"
 
 @interface KBMViewController ()
 @property (strong, nonatomic) NSURL *url;
@@ -108,16 +109,26 @@
        didRangeBeacons:(NSArray*)beacons
               inRegion:(CLBeaconRegion*)region
 {
+	static CLBeacon *lastBeacon;
     CLBeacon *beacon = [beacons firstObject];
 	self.currentBeacon = self.currentBeacon ?: beacon;
 	
 	NSString *uuid = beacon.proximityUUID.UUIDString;
 	NSString *major = [NSString stringWithFormat:@"%@", beacon.major];
 	NSString *minor = [NSString stringWithFormat:@"%@", beacon.minor];
-	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)beacon.proximity]];
+	
+	if (beacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)beacon.proximity]];
+	
+	// We want a stable connection, so we're checking that we're getting the same signal at least twice before we do anything
+	if (! [lastBeacon isEqualAndSameDistanceToBeacon:beacon]) {
+		lastBeacon = beacon;
+		return;
+	}
+	
+	lastBeacon = beacon;
     
     if (beacon != nil
-		&& ([self.currentBeacon.minor intValue] == [beacon.minor intValue]) //todo: check everything
+		&& ([self.currentBeacon isEqualToBeacon:beacon])
 		&& (beacon.proximity == CLProximityImmediate
 			|| beacon.proximity == CLProximityNear
 			|| beacon.proximity == CLProximityFar
