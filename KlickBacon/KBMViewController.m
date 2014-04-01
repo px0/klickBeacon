@@ -19,7 +19,7 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLBeaconRegion *region;
 @property (strong, nonatomic) KBMWebViewViewController *vc;
-@property (strong, nonatomic) CLBeacon *currentBeacon;
+@property (strong, nonatomic) CLBeacon *beaconThatIsBeingPresented;
 @property BOOL currentlyPresenting;
 @end
 
@@ -110,27 +110,53 @@
               inRegion:(CLBeaconRegion*)region
 {
 	static CLBeacon *lastBeacon;
-    CLBeacon *beacon = [beacons firstObject];
-	self.currentBeacon = self.currentBeacon ?: beacon;
+    CLBeacon *currentBeacon = [beacons firstObject];
+	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: currentBeacon;
 	
-	NSString *uuid = beacon.proximityUUID.UUIDString;
-	NSString *major = [NSString stringWithFormat:@"%@", beacon.major];
-	NSString *minor = [NSString stringWithFormat:@"%@", beacon.minor];
+	NSString *uuid = currentBeacon.proximityUUID.UUIDString;
+	NSString *major = [NSString stringWithFormat:@"%@", currentBeacon.major];
+	NSString *minor = [NSString stringWithFormat:@"%@", currentBeacon.minor];
 	
-	if (beacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)beacon.proximity]];
+	if (currentBeacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)currentBeacon.proximity]];
 	
-	// We want a stable connection, so we're checking that we're getting the same signal at least twice before we do anything
-	if (! [lastBeacon isEqualAndInRangeToBeacon:beacon]) {
-		lastBeacon = beacon;
-		return;
+	if (self.currentlyPresenting
+		&&
+		(
+		 ![self.beaconThatIsBeingPresented isEqualToBeacon:currentBeacon]
+		 || !currentBeacon.isInRange
+		 )
+		){
+		[self.vc dismissViewControllerAnimated:YES completion:^{
+			self.currentlyPresenting = NO;
+		}];
+		self.beaconThatIsBeingPresented = nil;
 	}
 	
-	lastBeacon = beacon;
-    
-    if (beacon != nil
-		&& ([self.currentBeacon isEqualToBeacon:beacon])
-		&& beacon.isInRange
-		)
+	if (currentBeacon
+		&& [currentBeacon isInRange]
+		&& !self.currentlyPresenting)
+	{
+		self.currentlyPresenting = YES;
+		self.beaconThatIsBeingPresented = currentBeacon;
+		[self mlog:@"Presenting!"];
+		[self visitBeaconWebsite:minor major:major uuid:uuid];
+	}
+	
+	
+	// We want a stable connection, so we're checking that we're getting the same signal at least twice before we do anything
+//	if (beacon
+//		&& [beacon isInRange]
+//		&& ![lastBeacon isEqualAndInRangeToBeacon:beacon]) {
+//		lastBeacon = beacon;
+//		return;
+//	}
+//	
+//	lastBeacon = beacon;
+//
+	/*
+    if (currentBeacon != nil
+		&& ([self.beaconThatIsBeingPresented isEqualToBeacon:currentBeacon])
+		&& currentBeacon.isInRange)
 	{
         if (!self.currentlyPresenting) {
 			self.currentlyPresenting = YES;
@@ -143,10 +169,11 @@
 			
     } else {
 		[self.vc dismissViewControllerAnimated:YES completion:^{
-			self.currentBeacon = nil;
+			self.beaconThatIsBeingPresented = nil;
 			self.currentlyPresenting = NO;
 		}];
 	}
+	 */
 }
 
  #pragma mark - Navigation
@@ -154,7 +181,7 @@
  {
 	 if (self.vc) {
 		 [self.vc dismissViewControllerAnimated:YES completion:^{
-			 self.currentBeacon = nil;
+			 self.beaconThatIsBeingPresented = nil;
 			 self.currentlyPresenting = NO;
 		 }];
 	 }
