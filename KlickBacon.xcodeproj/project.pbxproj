@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		27246B6FEC734CFBAF00B3A7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 192433DCCAA44F028ABB61AA /* libPods.a */; };
+		5C2F163D18ECB37A0044D441 /* Storyboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2F163C18ECB37A0044D441 /* Storyboard_iPhone.storyboard */; };
 		5C965BB818E9B2E800175F41 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C965BB718E9B2E800175F41 /* CoreLocation.framework */; };
 		5C965BBB18EAEF6400175F41 /* CLBeacon+equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */; };
-		6934DAE118E856EA00CB5602 /* KBMWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6934DAE018E856EA00CB5602 /* KBMWebViewViewController.m */; };
 		6934DAE318E8CD0D00CB5602 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6934DAE218E8CD0D00CB5602 /* CoreBluetooth.framework */; };
 		6934DAE718E8CD9900CB5602 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6934DAE618E8CD9900CB5602 /* Settings.bundle */; };
 		699D731718E7983C0038B02A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D731618E7983C0038B02A /* Foundation.framework */; };
@@ -19,7 +19,7 @@
 		699D732118E7983C0038B02A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 699D731F18E7983C0038B02A /* InfoPlist.strings */; };
 		699D732318E7983C0038B02A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D732218E7983C0038B02A /* main.m */; };
 		699D732718E7983C0038B02A /* KBMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D732618E7983C0038B02A /* KBMAppDelegate.m */; };
-		699D732A18E7983C0038B02A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699D732818E7983C0038B02A /* Main.storyboard */; };
+		699D732A18E7983C0038B02A /* Storyboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 699D732818E7983C0038B02A /* Storyboard_iPad.storyboard */; };
 		699D732D18E7983C0038B02A /* KBMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D732C18E7983C0038B02A /* KBMViewController.m */; };
 		699D732F18E7983C0038B02A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 699D732E18E7983C0038B02A /* Images.xcassets */; };
 		699D733618E7983C0038B02A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 699D733518E7983C0038B02A /* XCTest.framework */; };
@@ -42,11 +42,10 @@
 /* Begin PBXFileReference section */
 		192433DCCAA44F028ABB61AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BFD472A3D7C4E7CBCF360BC /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		5C2F163C18ECB37A0044D441 /* Storyboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_iPhone.storyboard; sourceTree = "<group>"; };
 		5C965BB718E9B2E800175F41 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5C965BB918EAEF6400175F41 /* CLBeacon+equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLBeacon+equal.h"; sourceTree = "<group>"; };
 		5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLBeacon+equal.m"; sourceTree = "<group>"; };
-		6934DADF18E856EA00CB5602 /* KBMWebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBMWebViewViewController.h; sourceTree = "<group>"; };
-		6934DAE018E856EA00CB5602 /* KBMWebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBMWebViewViewController.m; sourceTree = "<group>"; };
 		6934DAE218E8CD0D00CB5602 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		6934DAE618E8CD9900CB5602 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		699D731318E7983C0038B02A /* KlickBacon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KlickBacon.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,7 +58,7 @@
 		699D732418E7983C0038B02A /* KlickBacon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KlickBacon-Prefix.pch"; sourceTree = "<group>"; };
 		699D732518E7983C0038B02A /* KBMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBMAppDelegate.h; sourceTree = "<group>"; };
 		699D732618E7983C0038B02A /* KBMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBMAppDelegate.m; sourceTree = "<group>"; };
-		699D732918E7983C0038B02A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		699D732918E7983C0038B02A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Storyboard_iPad.storyboard; sourceTree = "<group>"; };
 		699D732B18E7983C0038B02A /* KBMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBMViewController.h; sourceTree = "<group>"; };
 		699D732C18E7983C0038B02A /* KBMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBMViewController.m; sourceTree = "<group>"; };
 		699D732E18E7983C0038B02A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -134,15 +133,14 @@
 		699D731C18E7983C0038B02A /* KlickBacon */ = {
 			isa = PBXGroup;
 			children = (
-				699D732818E7983C0038B02A /* Main.storyboard */,
+				699D732818E7983C0038B02A /* Storyboard_iPad.storyboard */,
+				5C2F163C18ECB37A0044D441 /* Storyboard_iPhone.storyboard */,
 				699D732518E7983C0038B02A /* KBMAppDelegate.h */,
 				699D732618E7983C0038B02A /* KBMAppDelegate.m */,
 				699D732B18E7983C0038B02A /* KBMViewController.h */,
 				699D732C18E7983C0038B02A /* KBMViewController.m */,
 				5C965BB918EAEF6400175F41 /* CLBeacon+equal.h */,
 				5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */,
-				6934DADF18E856EA00CB5602 /* KBMWebViewViewController.h */,
-				6934DAE018E856EA00CB5602 /* KBMWebViewViewController.m */,
 				6934DAE618E8CD9900CB5602 /* Settings.bundle */,
 				699D732E18E7983C0038B02A /* Images.xcassets */,
 				699D731D18E7983C0038B02A /* Supporting Files */,
@@ -260,8 +258,9 @@
 			files = (
 				6934DAE718E8CD9900CB5602 /* Settings.bundle in Resources */,
 				699D732F18E7983C0038B02A /* Images.xcassets in Resources */,
+				5C2F163D18ECB37A0044D441 /* Storyboard_iPhone.storyboard in Resources */,
 				699D732118E7983C0038B02A /* InfoPlist.strings in Resources */,
-				699D732A18E7983C0038B02A /* Main.storyboard in Resources */,
+				699D732A18E7983C0038B02A /* Storyboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,7 +316,6 @@
 				5C965BBB18EAEF6400175F41 /* CLBeacon+equal.m in Sources */,
 				699D732D18E7983C0038B02A /* KBMViewController.m in Sources */,
 				699D732718E7983C0038B02A /* KBMAppDelegate.m in Sources */,
-				6934DAE118E856EA00CB5602 /* KBMWebViewViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,12 +346,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		699D732818E7983C0038B02A /* Main.storyboard */ = {
+		699D732818E7983C0038B02A /* Storyboard_iPad.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				699D732918E7983C0038B02A /* Base */,
 			);
-			name = Main.storyboard;
+			name = Storyboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		699D733E18E7983D0038B02A /* InfoPlist.strings */ = {
@@ -402,7 +400,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -434,7 +432,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -449,6 +447,7 @@
 				GCC_PREFIX_HEADER = "KlickBacon/KlickBacon-Prefix.pch";
 				INFOPLIST_FILE = "KlickBacon/KlickBacon-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -463,6 +462,7 @@
 				GCC_PREFIX_HEADER = "KlickBacon/KlickBacon-Prefix.pch";
 				INFOPLIST_FILE = "KlickBacon/KlickBacon-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
