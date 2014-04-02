@@ -70,7 +70,17 @@
 	})
 
 	// add text
-	function beacon(uuid, major, minor)
+	function beacon(uuid, major, minor){
+		var d = new Date();
+		var time = d.toLocaleTimeString();
+		var m = major+" - "+minor;
+		var c = {title: time, message: m};
+
+		cards_data.unshift(c);
+		layoutColumns();
+	}
+	
+	
 	//resize event handler
 	function onResize() {
 		var targetColumns = Math.floor( $(document).width()/MIN_COL_WIDTH );
