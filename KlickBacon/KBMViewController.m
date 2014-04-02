@@ -7,18 +7,17 @@
 //
 
 #import "KBMViewController.h"
-#import "KBMWebViewViewController.h"
 #import "BCMBeaconManager.h"
 #include "AFNetworking.h"
 #include "CLBeacon+equal.h"
 
 @interface KBMViewController ()
 @property (strong, nonatomic) NSURL *url;
-@property (strong, nonatomic) NSUUID *uuid;
+@property (strong, nonatomic) NSUUID *beaconUUID;
+@property (strong, nonatomic) NSUUID *deviceUUID;
 @property (strong, nonatomic) NSString *serverip;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLBeaconRegion *region;
-@property (strong, nonatomic) KBMWebViewViewController *vc;
 @property (strong, nonatomic) CLBeacon *beaconThatIsBeingPresented;
 @property BOOL currentlyPresenting;
 @end
@@ -29,14 +28,19 @@
 {
     [super viewDidLoad];
 	
+
+	
 	self.currentlyPresenting = NO;
 	
-        // Get user preference
+	// Get user preference
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.uuid = [[NSUUID alloc] initWithUUIDString:[defaults objectForKey:@"uuid"]];
+    self.beaconUUID = [[NSUUID alloc] initWithUUIDString:[defaults objectForKey:@"uuid"]];
     self.serverip = [defaults objectForKey:@"serverip"];
+	
+	self.deviceUUID = [defaults objectForKey:@"deviceuuid"] ?: [[UIDevice currentDevice] identifierForVendor];
+	[defaults synchronize];
 
-	self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.uuid identifier:@"TestBeacon"];
+	self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.beaconUUID identifier:@"TestBeacon"];
 	self.region.notifyEntryStateOnDisplay = YES;
 	
 	// Initialize location manager and set ourselves as the delegate
@@ -49,6 +53,10 @@
     [self.locationManager startRangingBeaconsInRegion:self.region];
 	
 	[self mlog:(@"starting monitoring")];
+	
+	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.serverip]];
+	[self.webview loadRequest:[NSURLRequest requestWithURL:url]];
+
 }
 
 
@@ -68,11 +76,7 @@
     [self mlog:(@"exit region!!!")];
 }
 
-- (void) openURL: (NSString *)urlString {
-    self.url = [NSURL URLWithString:urlString];
-	[self mlog:[NSString stringWithFormat:@"opening url: %@", urlString]];
-    [self performSegueWithIdentifier:@"presentWebview" sender:self];
-}
+
 
 - (void) mlog: (NSString *) string {
     NSDate *now = [NSDate date];
@@ -84,32 +88,18 @@
     self.textview.text = [NSString stringWithFormat:@"%@\n%@", debugString, self.textview.text];
 }
 
-- (void)visitBeaconWebsite:(NSString *)minor major:(NSString *)major uuid:(NSString *)uuid
-{
-	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.serverip]];
-	AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
-	NSString *restAPI = [NSString stringWithFormat:@"/beacon/%@/%@/%@", uuid, major, minor];
-	
-	[self mlog:@"performing call to webservice"];
-	
-	[manager GET:restAPI parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		
-		[self mlog:[NSString stringWithFormat:@"JSON: %@", responseObject]];
 
-		NSDictionary *response = (NSDictionary *)responseObject;
-		NSString *urlString = response[@"url"];
-		[self openURL:urlString];
-		
-	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		[self mlog:[NSString stringWithFormat:@"Error: %@", error]];
-	}];
+- (void)executeJavascriptOnWebsite:(NSString *)minor major:(NSString *)major uuid:(NSString *)uuid {
+	NSString *apiCall = [NSString stringWithFormat:@"beacon('%@', '%@', '%@', '%@');", uuid, major, minor, self.deviceUUID];
+	
+	[self.webview stringByEvaluatingJavaScriptFromString:apiCall];
 }
+
 
 -(void)locationManager:(CLLocationManager*)manager
        didRangeBeacons:(NSArray*)beacons
               inRegion:(CLBeaconRegion*)region
 {
-	static CLBeacon *lastBeacon;
     CLBeacon *currentBeacon = [beacons firstObject];
 	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: currentBeacon;
 	
@@ -119,75 +109,26 @@
 	
 	if (currentBeacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)currentBeacon.proximity]];
 	
-	if (self.currentlyPresenting
-		&&
-		(
-		 ![self.beaconThatIsBeingPresented isEqualToBeacon:currentBeacon]
-		 || !currentBeacon.isInRange
-		 )
-		){
-		[self.vc dismissViewControllerAnimated:YES completion:^{
-			self.currentlyPresenting = NO;
-		}];
-		self.beaconThatIsBeingPresented = nil;
-	}
-	
-	if (currentBeacon
-		&& [currentBeacon isInRange]
-		&& !self.currentlyPresenting)
-	{
-		self.currentlyPresenting = YES;
-		self.beaconThatIsBeingPresented = currentBeacon;
+	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
 		[self mlog:@"Presenting!"];
-		[self visitBeaconWebsite:minor major:major uuid:uuid];
+		[self executeJavascriptOnWebsite:minor major:major uuid:uuid];
+		self.beaconThatIsBeingPresented = currentBeacon;
 	}
-	
-	
-	// We want a stable connection, so we're checking that we're getting the same signal at least twice before we do anything
-//	if (beacon
-//		&& [beacon isInRange]
-//		&& ![lastBeacon isEqualAndInRangeToBeacon:beacon]) {
-//		lastBeacon = beacon;
-//		return;
-//	}
-//	
-//	lastBeacon = beacon;
-//
-	/*
-    if (currentBeacon != nil
-		&& ([self.beaconThatIsBeingPresented isEqualToBeacon:currentBeacon])
-		&& currentBeacon.isInRange)
-	{
-        if (!self.currentlyPresenting) {
-			self.currentlyPresenting = YES;
-			[self mlog:@"Presenting!"];
-			[self visitBeaconWebsite:minor major:major uuid:uuid];
-        }
-		else {
-			// we are still presenting, so we don't do anything
-		}
-			
-    } else {
-		[self.vc dismissViewControllerAnimated:YES completion:^{
-			self.beaconThatIsBeingPresented = nil;
-			self.currentlyPresenting = NO;
-		}];
-	}
-	 */
 }
 
- #pragma mark - Navigation
-  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
-	 if (self.vc) {
-		 [self.vc dismissViewControllerAnimated:YES completion:^{
-			 self.beaconThatIsBeingPresented = nil;
-			 self.currentlyPresenting = NO;
-		 }];
-	 }
-		 
-		 self.vc = [segue destinationViewController];
-		 self.vc.url = self.url;
- }
+#pragma mark - webview delegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+	NSLog(@"%@", request);
+	
+	return YES;
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+	NSLog(@"%@", [error description]);
+}
+
+
 
 @end

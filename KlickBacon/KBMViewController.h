@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 @import CoreLocation;
 
-@interface KBMViewController : UIViewController <CLLocationManagerDelegate>
+@interface KBMViewController : UIViewController <CLLocationManagerDelegate, UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextView *textview;
+@property (weak, nonatomic) IBOutlet UIWebView *webview;
 
 @end

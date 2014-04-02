@@ -28,7 +28,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>mcaron.klick.com:8081</string>
+			<string>ec2-54-186-251-103.us-west-2.compute.amazonaws.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
