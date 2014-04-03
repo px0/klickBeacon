@@ -7,40 +7,55 @@
 //
 
 #import "KBMViewController.h"
-#import "BCMBeaconManager.h"
-#include "AFNetworking.h"
-#include "CLBeacon+equal.h"
+#import "GHContextMenuView.h"
+#import "AFNetworking.h"
+#import "CLBeacon+equal.h"
+#import "KBMWebViewDelegate.h"
 
 @interface KBMViewController ()
 @property (strong, nonatomic) NSURL *url;
 @property (strong, nonatomic) NSUUID *beaconUUID;
 @property (strong, nonatomic) NSUUID *deviceUUID;
-@property (strong, nonatomic) NSString *serverip;
+@property (strong, nonatomic) NSString *websiteURL;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLBeaconRegion *region;
 @property (strong, nonatomic) CLBeacon *beaconThatIsBeingPresented;
-@property BOOL currentlyPresenting;
+@property (strong, nonatomic) KBMWebViewDelegate *webviewDelegate;
 @end
 
 @implementation KBMViewController
 
+- (void)loadUserDefaults
+{
+	// Get user preference
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.beaconUUID = [[NSUUID alloc] initWithUUIDString:[defaults objectForKey:@"uuid"]];
+    self.websiteURL = [defaults objectForKey:@"websiteurl"];
+	self.deviceUUID = [defaults objectForKey:@"deviceuuid"] ?: [[UIDevice currentDevice] identifierForVendor];
+	[defaults synchronize];
+}
+
+- (void)loadWebsite
+{
+	self.webviewDelegate = [KBMWebViewDelegate new];
+	self.webview.delegate = self.webviewDelegate;
+	
+	NSURL *url;
+	if ([self.websiteURL hasPrefix:@"http"]) {
+		url = [NSURL URLWithString:self.websiteURL];
+	} else {
+		url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.websiteURL]];
+	}
+	
+	[self.webview loadRequest:[NSURLRequest requestWithURL:url]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+	[self loadUserDefaults];
 
-	
-	self.currentlyPresenting = NO;
-	
-	// Get user preference
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.beaconUUID = [[NSUUID alloc] initWithUUIDString:[defaults objectForKey:@"uuid"]];
-    self.serverip = [defaults objectForKey:@"serverip"];
-	
-	self.deviceUUID = [defaults objectForKey:@"deviceuuid"] ?: [[UIDevice currentDevice] identifierForVendor];
-	[defaults synchronize];
-
-	self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.beaconUUID identifier:@"TestBeacon"];
+	self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.beaconUUID identifier:@"Klick"];
 	self.region.notifyEntryStateOnDisplay = YES;
 	
 	// Initialize location manager and set ourselves as the delegate
@@ -54,15 +69,14 @@
 	
 	[self mlog:(@"starting monitoring")];
 	
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.serverip]];
-	[self.webview loadRequest:[NSURLRequest requestWithURL:url]];
+	[self loadWebsite];
 
 }
 
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
-	[self mlog:[NSString stringWithFormat:@"Error: %@", error]];
+	[self mlog:[NSString stringWithFormat:@"monitoringdidfailrforregion: %@", error]];
 }
 
 - (void)locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region
@@ -70,7 +84,7 @@
     [self mlog:@"enter region!!!"];
 }
 
--(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)region
+-(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)regionf
 {
 
     [self mlog:(@"exit region!!!")];
@@ -116,18 +130,7 @@
 	}
 }
 
-#pragma mark - webview delegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-	NSLog(@"%@", request);
-	
-	return YES;
-}
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-	NSLog(@"%@", [error description]);
-}
 
 
 

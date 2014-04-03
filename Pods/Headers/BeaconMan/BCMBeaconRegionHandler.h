@@ -1,1 +1,0 @@
-../../BeaconMan/Project/BeaconMan/Classes/BCMBeaconRegionHandler.h

@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		27246B6FEC734CFBAF00B3A7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 192433DCCAA44F028ABB61AA /* libPods.a */; };
 		5C2F163D18ECB37A0044D441 /* Storyboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2F163C18ECB37A0044D441 /* Storyboard_iPhone.storyboard */; };
+		5C2F164018ED9F0A0044D441 /* 01-refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2F163E18ED9F0A0044D441 /* 01-refresh.png */; };
+		5C2F164118ED9F0A0044D441 /* 01-refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2F163F18ED9F0A0044D441 /* 01-refresh@2x.png */; };
+		5C2F164418ED9F770044D441 /* 216-compose.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2F164218ED9F770044D441 /* 216-compose.png */; };
+		5C2F164518ED9F770044D441 /* 216-compose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2F164318ED9F770044D441 /* 216-compose@2x.png */; };
+		5C2F164918EDA01F0044D441 /* GHContextMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F164818EDA01F0044D441 /* GHContextMenuView.m */; };
+		5C2F164D18EDAB950044D441 /* KBMWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F164C18EDAB950044D441 /* KBMWebViewDelegate.m */; };
 		5C965BB818E9B2E800175F41 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C965BB718E9B2E800175F41 /* CoreLocation.framework */; };
 		5C965BBB18EAEF6400175F41 /* CLBeacon+equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */; };
 		6934DAE318E8CD0D00CB5602 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6934DAE218E8CD0D00CB5602 /* CoreBluetooth.framework */; };
@@ -43,6 +49,14 @@
 		192433DCCAA44F028ABB61AA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BFD472A3D7C4E7CBCF360BC /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		5C2F163C18ECB37A0044D441 /* Storyboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard_iPhone.storyboard; sourceTree = "<group>"; };
+		5C2F163E18ED9F0A0044D441 /* 01-refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01-refresh.png"; sourceTree = "<group>"; };
+		5C2F163F18ED9F0A0044D441 /* 01-refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01-refresh@2x.png"; sourceTree = "<group>"; };
+		5C2F164218ED9F770044D441 /* 216-compose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "216-compose.png"; sourceTree = "<group>"; };
+		5C2F164318ED9F770044D441 /* 216-compose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "216-compose@2x.png"; sourceTree = "<group>"; };
+		5C2F164718EDA01F0044D441 /* GHContextMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GHContextMenuView.h; sourceTree = "<group>"; };
+		5C2F164818EDA01F0044D441 /* GHContextMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHContextMenuView.m; sourceTree = "<group>"; };
+		5C2F164B18EDAB950044D441 /* KBMWebViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBMWebViewDelegate.h; sourceTree = "<group>"; };
+		5C2F164C18EDAB950044D441 /* KBMWebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBMWebViewDelegate.m; sourceTree = "<group>"; };
 		5C965BB718E9B2E800175F41 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5C965BB918EAEF6400175F41 /* CLBeacon+equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLBeacon+equal.h"; sourceTree = "<group>"; };
 		5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLBeacon+equal.m"; sourceTree = "<group>"; };
@@ -96,6 +110,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C2F164618ED9F8A0044D441 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				5C2F163E18ED9F0A0044D441 /* 01-refresh.png */,
+				5C2F164218ED9F770044D441 /* 216-compose.png */,
+				5C2F164318ED9F770044D441 /* 216-compose@2x.png */,
+				5C2F163F18ED9F0A0044D441 /* 01-refresh@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		5C2F164A18EDA0250044D441 /* GHContextMenuView */ = {
+			isa = PBXGroup;
+			children = (
+				5C2F164718EDA01F0044D441 /* GHContextMenuView.h */,
+				5C2F164818EDA01F0044D441 /* GHContextMenuView.m */,
+			);
+			name = GHContextMenuView;
+			sourceTree = "<group>";
+		};
 		699D730A18E7983C0038B02A = {
 			isa = PBXGroup;
 			children = (
@@ -139,8 +173,11 @@
 				699D732618E7983C0038B02A /* KBMAppDelegate.m */,
 				699D732B18E7983C0038B02A /* KBMViewController.h */,
 				699D732C18E7983C0038B02A /* KBMViewController.m */,
+				5C2F164B18EDAB950044D441 /* KBMWebViewDelegate.h */,
+				5C2F164C18EDAB950044D441 /* KBMWebViewDelegate.m */,
 				5C965BB918EAEF6400175F41 /* CLBeacon+equal.h */,
 				5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */,
+				5C2F164A18EDA0250044D441 /* GHContextMenuView */,
 				6934DAE618E8CD9900CB5602 /* Settings.bundle */,
 				699D732E18E7983C0038B02A /* Images.xcassets */,
 				699D731D18E7983C0038B02A /* Supporting Files */,
@@ -151,6 +188,7 @@
 		699D731D18E7983C0038B02A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5C2F164618ED9F8A0044D441 /* Images */,
 				699D731E18E7983C0038B02A /* KlickBacon-Info.plist */,
 				699D731F18E7983C0038B02A /* InfoPlist.strings */,
 				699D732218E7983C0038B02A /* main.m */,
@@ -256,10 +294,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C2F164018ED9F0A0044D441 /* 01-refresh.png in Resources */,
+				5C2F164518ED9F770044D441 /* 216-compose@2x.png in Resources */,
+				5C2F164118ED9F0A0044D441 /* 01-refresh@2x.png in Resources */,
 				6934DAE718E8CD9900CB5602 /* Settings.bundle in Resources */,
 				699D732F18E7983C0038B02A /* Images.xcassets in Resources */,
 				5C2F163D18ECB37A0044D441 /* Storyboard_iPhone.storyboard in Resources */,
 				699D732118E7983C0038B02A /* InfoPlist.strings in Resources */,
+				5C2F164418ED9F770044D441 /* 216-compose.png in Resources */,
 				699D732A18E7983C0038B02A /* Storyboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,7 +357,9 @@
 				699D732318E7983C0038B02A /* main.m in Sources */,
 				5C965BBB18EAEF6400175F41 /* CLBeacon+equal.m in Sources */,
 				699D732D18E7983C0038B02A /* KBMViewController.m in Sources */,
+				5C2F164D18EDAB950044D441 /* KBMWebViewDelegate.m in Sources */,
 				699D732718E7983C0038B02A /* KBMAppDelegate.m in Sources */,
+				5C2F164918EDA01F0044D441 /* GHContextMenuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

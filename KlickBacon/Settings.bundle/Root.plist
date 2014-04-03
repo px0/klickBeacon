@@ -18,7 +18,7 @@
 			<key>KeyboardType</key>
 			<string>Alphabet</string>
 			<key>Title</key>
-			<string>UUID</string>
+			<string>Beacon UUID</string>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 		</dict>
@@ -32,11 +32,11 @@
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
-			<string>serverip</string>
+			<string>websiteurl</string>
 			<key>KeyboardType</key>
 			<string>Alphabet</string>
 			<key>Title</key>
-			<string>Server:Port</string>
+			<string>Website URL</string>
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 		</dict>
