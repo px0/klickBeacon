@@ -13,7 +13,8 @@
 {
 	if ([self.proximityUUID.UUIDString isEqualToString:otherBeacon.proximityUUID.UUIDString]
 		&& (self.major.intValue == otherBeacon.major.intValue)
-		&& (self.minor.intValue == otherBeacon.minor.intValue))
+		&& (self.minor.intValue == otherBeacon.minor.intValue)
+        && (self.proximity == otherBeacon.proximity))
 	{
 		return YES;
 	}
