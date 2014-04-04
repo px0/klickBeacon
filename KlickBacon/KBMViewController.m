@@ -11,6 +11,8 @@
 #import "AFNetworking.h"
 #import "CLBeacon+equal.h"
 #import "KBMWebViewDelegate.h"
+#import "JSONModel.h"
+#import "NSArray+json.h"
 
 @interface KBMViewController ()
 @property (strong, nonatomic) NSURL *url;
@@ -181,9 +183,20 @@
 	
 	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
 		[self mlog:@"Presenting!"];
+//		NSString *jsonBeacons = [self beaconJSONRepresentation:beacons];
 		[self executeJavascriptOnWebsite:minor major:major uuid:uuid];
 		self.beaconThatIsBeingPresented = currentBeacon;
 	}
+}
+
+- (NSString *) beaconJSONRepresentation: (NSArray *)beacons {
+	NSMutableArray *output = [NSMutableArray new];
+	
+	for (CLBeacon *b in beacons) {
+		[output addObject:[b toJSON]];
+	}
+	
+	return [output toJSON];
 }
 
 

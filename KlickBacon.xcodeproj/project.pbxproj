@@ -15,6 +15,7 @@
 		5C2F164518ED9F770044D441 /* 216-compose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C2F164318ED9F770044D441 /* 216-compose@2x.png */; };
 		5C2F164918EDA01F0044D441 /* GHContextMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F164818EDA01F0044D441 /* GHContextMenuView.m */; };
 		5C2F164D18EDAB950044D441 /* KBMWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F164C18EDAB950044D441 /* KBMWebViewDelegate.m */; };
+		5C2F166518EF10230044D441 /* NSArray+json.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2F166418EF10230044D441 /* NSArray+json.m */; };
 		5C965BB818E9B2E800175F41 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C965BB718E9B2E800175F41 /* CoreLocation.framework */; };
 		5C965BBB18EAEF6400175F41 /* CLBeacon+equal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */; };
 		6934DAE318E8CD0D00CB5602 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6934DAE218E8CD0D00CB5602 /* CoreBluetooth.framework */; };
@@ -57,6 +58,8 @@
 		5C2F164818EDA01F0044D441 /* GHContextMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHContextMenuView.m; sourceTree = "<group>"; };
 		5C2F164B18EDAB950044D441 /* KBMWebViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBMWebViewDelegate.h; sourceTree = "<group>"; };
 		5C2F164C18EDAB950044D441 /* KBMWebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBMWebViewDelegate.m; sourceTree = "<group>"; };
+		5C2F166318EF10230044D441 /* NSArray+json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+json.h"; sourceTree = "<group>"; };
+		5C2F166418EF10230044D441 /* NSArray+json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+json.m"; sourceTree = "<group>"; };
 		5C965BB718E9B2E800175F41 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5C965BB918EAEF6400175F41 /* CLBeacon+equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLBeacon+equal.h"; sourceTree = "<group>"; };
 		5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLBeacon+equal.m"; sourceTree = "<group>"; };
@@ -177,6 +180,8 @@
 				5C2F164C18EDAB950044D441 /* KBMWebViewDelegate.m */,
 				5C965BB918EAEF6400175F41 /* CLBeacon+equal.h */,
 				5C965BBA18EAEF6400175F41 /* CLBeacon+equal.m */,
+				5C2F166318EF10230044D441 /* NSArray+json.h */,
+				5C2F166418EF10230044D441 /* NSArray+json.m */,
 				5C2F164A18EDA0250044D441 /* GHContextMenuView */,
 				6934DAE618E8CD9900CB5602 /* Settings.bundle */,
 				699D732E18E7983C0038B02A /* Images.xcassets */,
@@ -364,6 +369,7 @@
 				699D732318E7983C0038B02A /* main.m in Sources */,
 				5C965BBB18EAEF6400175F41 /* CLBeacon+equal.m in Sources */,
 				699D732D18E7983C0038B02A /* KBMViewController.m in Sources */,
+				5C2F166518EF10230044D441 /* NSArray+json.m in Sources */,
 				5C2F164D18EDAB950044D441 /* KBMWebViewDelegate.m in Sources */,
 				699D732718E7983C0038B02A /* KBMAppDelegate.m in Sources */,
 				5C2F164918EDA01F0044D441 /* GHContextMenuView.m in Sources */,

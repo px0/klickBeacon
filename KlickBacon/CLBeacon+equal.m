@@ -46,4 +46,35 @@
 	
 	return NO;
 }
+
+- (NSDictionary *) toDictionary
+{
+
+		NSMutableDictionary* object = [NSMutableDictionary dictionary];
+		if ([self.proximityUUID UUIDString]) object[@"uuid"] = [self.proximityUUID UUIDString];
+		if (self.major) object[@"major"] = @([self.major unsignedIntValue]);
+		if (self.minor) object[@"minor"] = @([self.minor unsignedIntValue]);
+		if (self.accuracy) object[@"accuracy"] = @(self.accuracy);
+		if (self.proximity) object[@"proximity"] = @(self.proximity);
+		if (self.rssi) object[@"rssi"] = @(self.rssi);
+
+	return object;
+}
+
+- (NSString *) toJSON
+{
+	NSDictionary *dict = [self toDictionary];
+//	NSData *dictDataRepresentation = [NSKeyedArchiver archivedDataWithRootObject:dict];
+    NSError *error;
+	NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
+													   options:NSJSONWritingPrettyPrinted
+														 error:&error];
+	
+	if (! jsonData) {
+        NSLog(@"error: %@", error.localizedDescription);
+        return @"{}";
+	} else {
+        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+	}
+}
 @end

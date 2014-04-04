@@ -12,4 +12,6 @@
 - (BOOL) isEqualToBeacon: (CLBeacon *)otherBeacon;
 - (BOOL) isEqualAndInRangeToBeacon: (CLBeacon *)otherBeacon;
 - (BOOL) isInRange;
+- (NSDictionary *) toDictionary;
+- (NSString *) toJSON;
 @end

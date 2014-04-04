@@ -6,3 +6,5 @@ pod "AFNetworking", "~> 2.0"
 pod 'SVProgressHUD', :head
 pod 'UIAlertView-Blocks'
 
+pod 'JSONModel'
+
