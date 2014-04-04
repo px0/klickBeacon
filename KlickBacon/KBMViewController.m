@@ -35,10 +35,21 @@
 	[defaults synchronize];
 }
 
+- (void)setupDebugGesture
+{
+	UITapGestureRecognizer *doubleFingerDoubleTap = [[UITapGestureRecognizer alloc]
+                                                initWithTarget:self action:@selector(handleDoubleTap)];
+    doubleFingerDoubleTap.numberOfTapsRequired = 2;
+    doubleFingerDoubleTap.numberOfTouchesRequired = 2;
+    doubleFingerDoubleTap.delegate = self;
+    [self.view addGestureRecognizer:doubleFingerDoubleTap];
+}
+
 - (void)loadWebsite
 {
 	self.webviewDelegate = [KBMWebViewDelegate new];
 	self.webview.delegate = self.webviewDelegate;
+	
 	
 	NSURL *url;
 	if ([self.websiteURL hasPrefix:@"http"]) {
@@ -54,7 +65,23 @@
 {
     [super viewDidLoad];
 	[self loadUserDefaults];
+	[self setupDebugGesture];
 
+	if (! [self canDeviceSupportAppBackgroundRefresh]) {
+		NSString *message = @"You need to enable Background App Refresh in the System Preferences for this app to work";
+		RIButtonItem *okayButton = [RIButtonItem itemWithLabel:@"Okay"];
+		okayButton.action =^{
+			return;
+		};
+		
+		[[[UIAlertView alloc] initWithTitle:@"Error!"
+									message:message
+						   cancelButtonItem: okayButton
+						   otherButtonItems: nil]
+		 show];
+	}
+	
+	
 	self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.beaconUUID identifier:@"Klick"];
 	self.region.notifyEntryStateOnDisplay = YES;
 	
@@ -65,7 +92,6 @@
 	// Tell location manager to start monitoring for the beacon region
     [self.locationManager startMonitoringForRegion:self.region];
 	[self.locationManager requestStateForRegion:self.region];
-    [self.locationManager startRangingBeaconsInRegion:self.region];
 	
 	[self mlog:(@"starting monitoring")];
 	
@@ -73,21 +99,60 @@
 
 }
 
+#pragma mark - LocationManager Delegate
+
+-(BOOL) canDeviceSupportAppBackgroundRefresh //http://blog.iteedee.com/2014/02/ibeacon-startmonitoringforregion-doesnt-work/
+{
+    // Override point for customization after application launch.
+    if ([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusAvailable) {
+        NSLog(@"Background updates are available for the app.");
+        return YES;
+    }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied)
+    {
+        NSLog(@"The user explicitly disabled background behavior for this app or for the whole system.");
+        return NO;
+    }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted)
+    {
+        NSLog(@"Background updates are unavailable and the user cannot enable them again. For example, this status can occur when parental controls are in effect for the current user.");
+        return NO;
+    }
+	
+	return YES;
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if (![CLLocationManager locationServicesEnabled]) {
+        [self mlog:(@"Couldn't turn on ranging: Location services are not enabled.")];
+    }
+	
+    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
+        [self mlog:(@"Couldn't turn on monitoring: Location services not authorised.")];
+    }
+}
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
 	[self mlog:[NSString stringWithFormat:@"monitoringdidfailrforregion: %@", error]];
 }
 
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+{
+	if (state == CLRegionStateInside) {
+		[self locationManager:manager didEnterRegion:region];
+	}
+}
+
 - (void)locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region
 {
     [self mlog:@"enter region!!!"];
+	[self.locationManager startRangingBeaconsInRegion:self.region];
 }
 
--(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)regionf
+-(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)region
 {
-
     [self mlog:(@"exit region!!!")];
+	[self.locationManager stopRangingBeaconsInRegion:self.region];
 }
 
 
@@ -131,6 +196,19 @@
 }
 
 
+#pragma mark Gesture recognizer delegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+
+- (void) handleDoubleTap
+{
+	NSLog(@"double tap!");
+	self.textview.hidden = !self.textview.isHidden;
+}
 
 
 

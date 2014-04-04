@@ -265,6 +265,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Klick;
 				TargetAttributes = {
+					699D731218E7983C0038B02A = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					699D733318E7983C0038B02A = {
 						TestTargetID = 699D731218E7983C0038B02A;
 					};

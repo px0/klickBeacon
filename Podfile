@@ -4,3 +4,5 @@ inhibit_all_warnings!
 pod 'ObjectiveSugar'
 pod "AFNetworking", "~> 2.0"
 pod 'SVProgressHUD', :head
+pod 'UIAlertView-Blocks'
+
