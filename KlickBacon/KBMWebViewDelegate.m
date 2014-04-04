@@ -11,6 +11,15 @@
 
 @implementation KBMWebViewDelegate
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.webviewIsReady = NO;
+    }
+    return self;
+}
+
 #pragma mark - webview delegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
@@ -32,6 +41,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	[SVProgressHUD dismiss];
+	self.webviewIsReady = true;
 }
 
 @end

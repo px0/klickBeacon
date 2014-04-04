@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface KBMWebViewDelegate : NSObject <UIWebViewDelegate>
-
+@property BOOL webviewIsReady;
 @end

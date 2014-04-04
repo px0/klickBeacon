@@ -21,13 +21,13 @@
 @property (strong, nonatomic) CLBeaconRegion *region;
 @property (strong, nonatomic) CLBeacon *beaconThatIsBeingPresented;
 @property (strong, nonatomic) KBMWebViewDelegate *webviewDelegate;
+@property (strong, nonatomic) NSMutableArray *webviewJavascriptQueue;
 @end
 
 @implementation KBMViewController
 
 - (void)loadUserDefaults
 {
-	// Get user preference
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.beaconUUID = [[NSUUID alloc] initWithUUIDString:[defaults objectForKey:@"uuid"]];
     self.websiteURL = [defaults objectForKey:@"websiteurl"];
@@ -35,21 +35,25 @@
 	[defaults synchronize];
 }
 
-- (void)setupDebugGesture
+
+- (void)viewDidLoad
 {
-	UITapGestureRecognizer *doubleFingerDoubleTap = [[UITapGestureRecognizer alloc]
-                                                initWithTarget:self action:@selector(handleDoubleTap)];
-    doubleFingerDoubleTap.numberOfTapsRequired = 2;
-    doubleFingerDoubleTap.numberOfTouchesRequired = 2;
-    doubleFingerDoubleTap.delegate = self;
-    [self.view addGestureRecognizer:doubleFingerDoubleTap];
+    [super viewDidLoad];
+	[self loadUserDefaults];
+	[self setupDebugGesture];
+	[self checkCanDeviceSupportAppBackgroundRefresh];
+	[self checkLocationServicesEnabledAndAuthorized];
+	
+	self.webviewJavascriptQueue = [NSMutableArray new];
+	[self startRegionMonitoring];
+	[self loadWebsite];
 }
+
 
 - (void)loadWebsite
 {
 	self.webviewDelegate = [KBMWebViewDelegate new];
 	self.webview.delegate = self.webviewDelegate;
-	
 	
 	NSURL *url;
 	if ([self.websiteURL hasPrefix:@"http"]) {
@@ -61,27 +65,10 @@
 	[self.webview loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	[self loadUserDefaults];
-	[self setupDebugGesture];
 
-	if (! [self canDeviceSupportAppBackgroundRefresh]) {
-		NSString *message = @"You need to enable Background App Refresh in the System Preferences for this app to work";
-		RIButtonItem *okayButton = [RIButtonItem itemWithLabel:@"Okay"];
-		okayButton.action =^{
-			return;
-		};
-		
-		[[[UIAlertView alloc] initWithTitle:@"Error!"
-									message:message
-						   cancelButtonItem: okayButton
-						   otherButtonItems: nil]
-		 show];
-	}
-	
-	
+#pragma mark - LocationManager Delegate
+- (void)startRegionMonitoring
+{
 	self.region = [[CLBeaconRegion alloc] initWithProximityUUID:self.beaconUUID identifier:@"Klick"];
 	self.region.notifyEntryStateOnDisplay = YES;
 	
@@ -90,44 +77,41 @@
     self.locationManager.delegate = self;
     
 	// Tell location manager to start monitoring for the beacon region
-    [self.locationManager startMonitoringForRegion:self.region];
-	[self.locationManager requestStateForRegion:self.region];
-	
-	[self mlog:(@"starting monitoring")];
-	
-	[self loadWebsite];
-
+	if ([CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
+		[self.locationManager startMonitoringForRegion:self.region];
+		
+		// get status update right away for UI
+		[self.locationManager requestStateForRegion:self.region];
+		[self mlog:(@"starting monitoring")];
+		
+	}
+	else {
+		NSLog(@"This device does not support monitoring beacon regions");
+	}
 }
 
-#pragma mark - LocationManager Delegate
-
--(BOOL) canDeviceSupportAppBackgroundRefresh //http://blog.iteedee.com/2014/02/ibeacon-startmonitoringforregion-doesnt-work/
+-(void) checkCanDeviceSupportAppBackgroundRefresh //http://blog.iteedee.com/2014/02/ibeacon-startmonitoringforregion-doesnt-work/
 {
-    // Override point for customization after application launch.
     if ([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusAvailable) {
-        NSLog(@"Background updates are available for the app.");
-        return YES;
-    }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied)
+        [self mlog:(@"Background updates are available for the app.")];
+    }else if(
+			 [[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied
+			 || [[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted
+			)
     {
-        NSLog(@"The user explicitly disabled background behavior for this app or for the whole system.");
-        return NO;
-    }else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted)
-    {
-        NSLog(@"Background updates are unavailable and the user cannot enable them again. For example, this status can occur when parental controls are in effect for the current user.");
-        return NO;
-    }
-	
-	return YES;
+		NSString *message = @"You need to enable Background App Refresh in the System Preferences for this app to work";
+		[self showUserErrorMessage:message];
+	}
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+- (void)checkLocationServicesEnabledAndAuthorized
 {
     if (![CLLocationManager locationServicesEnabled]) {
-        [self mlog:(@"Couldn't turn on ranging: Location services are not enabled.")];
+        [self showUserErrorMessage:(@"Couldn't turn on ranging: Location services are not enabled.")];
     }
 	
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
-        [self mlog:(@"Couldn't turn on monitoring: Location services not authorised.")];
+        [self showUserErrorMessage:(@"Couldn't turn on monitoring: Location services not authorised.")];
     }
 }
 
@@ -155,23 +139,30 @@
 	[self.locationManager stopRangingBeaconsInRegion:self.region];
 }
 
-
-
-- (void) mlog: (NSString *) string {
-    NSDate *now = [NSDate date];
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
-    [dateFormatter setDateFormat:@"HH:mm:ss"];
-    NSString *debugString = [NSString stringWithFormat:@"%@: %@", [dateFormatter stringFromDate: now], string];
-	NSLog(@"%@", debugString);
-    self.textview.text = [NSString stringWithFormat:@"%@\n%@", debugString, self.textview.text];
+- (void) processJavascriptQueue
+{
+	if (self.webviewDelegate.webviewIsReady && self.webviewJavascriptQueue.count > 0) {
+		[self mlog:@"ready now, processing queue"];
+		for (NSString *call in self.webviewJavascriptQueue) {
+			[self.webview stringByEvaluatingJavaScriptFromString:call];
+		}
+		self.webviewJavascriptQueue = [NSMutableArray new];
+	} else {
+		[self performSelector:@selector(processJavascriptQueue) withObject:nil afterDelay:1.0];
+	}
 }
-
 
 - (void)executeJavascriptOnWebsite:(NSString *)minor major:(NSString *)major uuid:(NSString *)uuid {
 	NSString *apiCall = [NSString stringWithFormat:@"beacon('%@', '%@', '%@', '%@');", uuid, major, minor, self.deviceUUID];
 	
-	[self.webview stringByEvaluatingJavaScriptFromString:apiCall];
+	if (self.webviewDelegate.webviewIsReady) {
+		[self.webview stringByEvaluatingJavaScriptFromString:apiCall];
+	} else {
+		[self mlog:@"webview not ready, adding call to queue"];
+		[self.webviewJavascriptQueue addObject:apiCall];
+	}
+	
+	[self processJavascriptQueue];
 }
 
 
@@ -180,7 +171,7 @@
               inRegion:(CLBeaconRegion*)region
 {
     CLBeacon *currentBeacon = [beacons firstObject];
-	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: currentBeacon;
+	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: nil;
 	
 	NSString *uuid = currentBeacon.proximityUUID.UUIDString;
 	NSString *major = [NSString stringWithFormat:@"%@", currentBeacon.major];
@@ -198,16 +189,53 @@
 
 #pragma mark Gesture recognizer delegate
 
+- (void)setupDebugGesture
+{
+	UITapGestureRecognizer *doubleFingerDoubleTap = [[UITapGestureRecognizer alloc]
+													 initWithTarget:self action:@selector(handleDoubleTap)];
+    doubleFingerDoubleTap.numberOfTapsRequired = 2;
+    doubleFingerDoubleTap.numberOfTouchesRequired = 2;
+    doubleFingerDoubleTap.delegate = self;
+    [self.view addGestureRecognizer:doubleFingerDoubleTap];
+}
+
+- (void) handleDoubleTap
+{
+	NSLog(@"double tap!");
+	self.textview.hidden = !self.textview.isHidden;
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
 }
 
 
-- (void) handleDoubleTap
+#pragma mark - Misc
+
+- (void) mlog: (NSString *) string {
+    NSDate *now = [NSDate date];
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    NSString *debugString = [NSString stringWithFormat:@"%@: %@", [dateFormatter stringFromDate: now], string];
+	NSLog(@"%@", debugString);
+    self.textview.text = [NSString stringWithFormat:@"%@\n%@", debugString, self.textview.text];
+}
+
+
+- (void)showUserErrorMessage:(NSString *)message
 {
-	NSLog(@"double tap!");
-	self.textview.hidden = !self.textview.isHidden;
+	RIButtonItem *okayButton = [RIButtonItem itemWithLabel:@"Okay"];
+	okayButton.action =^{
+		return;
+	};
+	
+	[[[UIAlertView alloc] initWithTitle:@"Error!"
+								message:message
+					   cancelButtonItem: okayButton
+					   otherButtonItems: nil]
+	 show];
 }
 
 
