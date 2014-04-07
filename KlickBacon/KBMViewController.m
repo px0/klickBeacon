@@ -154,8 +154,8 @@
 	}
 }
 
-- (void)executeJavascriptOnWebsite:(NSString *)minor major:(NSString *)major uuid:(NSString *)uuid proximity:(CLProximity)proximity {
-	NSString *apiCall = [NSString stringWithFormat:@"beacon('%@', '%@', '%@', '%@', %d);", uuid, major, minor, self.deviceUUID, (int)proximity];
+- (void)executeJavascriptOnWebsite:(int)minor major:(int)major uuid:(NSString *)uuid proximity:(CLProximity)proximity {
+	NSString *apiCall = [NSString stringWithFormat:@"beacon('%@', %d, %d, '%@', %d);", uuid, major, minor, self.deviceUUID, (int)proximity];
 	
 	if (self.webviewDelegate.webviewIsReady) {
 		[self.webview stringByEvaluatingJavaScriptFromString:apiCall];
@@ -176,10 +176,10 @@
 	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: nil;
 	
 	NSString *uuid = currentBeacon.proximityUUID.UUIDString;
-	NSString *major = [NSString stringWithFormat:@"%@", currentBeacon.major];
-	NSString *minor = [NSString stringWithFormat:@"%@", currentBeacon.minor];
+	int major = [currentBeacon.major intValue];
+	int minor = [currentBeacon.minor intValue];
 	
-	if (currentBeacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %@, minor: %@, promixity: %d", major, minor, (int)currentBeacon.proximity]];
+	if (currentBeacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %d, minor: %d, promixity: %d", major, minor, (int)currentBeacon.proximity]];
 	
 	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
 		[self mlog:@"Presenting!"];
