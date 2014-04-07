@@ -154,8 +154,8 @@
 	}
 }
 
-- (void)executeJavascriptOnWebsite:(NSString *)minor major:(NSString *)major uuid:(NSString *)uuid {
-	NSString *apiCall = [NSString stringWithFormat:@"beacon('%@', '%@', '%@', '%@');", uuid, major, minor, self.deviceUUID];
+- (void)executeJavascriptOnWebsite:(NSString *)minor major:(NSString *)major uuid:(NSString *)uuid proximity:(CLProximity)proximity {
+	NSString *apiCall = [NSString stringWithFormat:@"beacon('%@', '%@', '%@', '%@', %d);", uuid, major, minor, self.deviceUUID, (int)proximity];
 	
 	if (self.webviewDelegate.webviewIsReady) {
 		[self.webview stringByEvaluatingJavaScriptFromString:apiCall];
@@ -184,7 +184,7 @@
 	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
 		[self mlog:@"Presenting!"];
 //		NSString *jsonBeacons = [self beaconJSONRepresentation:beacons];
-		[self executeJavascriptOnWebsite:minor major:major uuid:uuid];
+		[self executeJavascriptOnWebsite:minor major:major uuid:uuid proximity:currentBeacon.proximity];
 		self.beaconThatIsBeingPresented = currentBeacon;
 	}
 }
