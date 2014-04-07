@@ -64,7 +64,12 @@
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.websiteURL]];
 	}
 	
-	[self.webview loadRequest:[NSURLRequest requestWithURL:url]];
+	[self.webview loadRequest:[NSURLRequest
+                               requestWithURL:url
+                               cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                               timeoutInterval:60.0
+                               ]
+     ];
 }
 
 
