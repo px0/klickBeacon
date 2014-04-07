@@ -58,7 +58,7 @@
 		url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.websiteURL]];
 	}
 	
-	[self.webview loadRequest:[NSURLRequest requestWithURL:url]];
+	[self.webview loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0]];
 }
 
 - (void)viewDidLoad
@@ -66,6 +66,7 @@
     [super viewDidLoad];
 	[self loadUserDefaults];
 	[self setupDebugGesture];
+    self.webview.allowsInlineMediaPlayback = TRUE;
 
 	if (! [self canDeviceSupportAppBackgroundRefresh]) {
 		NSString *message = @"You need to enable Background App Refresh in the System Preferences for this app to work";
