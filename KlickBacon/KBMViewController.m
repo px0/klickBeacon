@@ -146,6 +146,31 @@
 	[self.locationManager stopRangingBeaconsInRegion:self.region];
 }
 
+-(void)locationManager:(CLLocationManager*)manager
+       didRangeBeacons:(NSArray*)beacons
+              inRegion:(CLBeaconRegion*)region
+{
+    CLBeacon *currentBeacon = [beacons firstObject];
+	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: nil;
+	
+	NSString *uuid = currentBeacon.proximityUUID.UUIDString;
+	int major = [currentBeacon.major intValue];
+	int minor = [currentBeacon.minor intValue];
+	
+	if (currentBeacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %d, minor: %d, promixity: %d", major, minor, (int)currentBeacon.proximity]];
+	
+	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
+		[self mlog:@"Presenting!"];
+		[self sendLocalNotificationWithMessage:[self getMessageForBeaconWithMajor:major minor:minor uuid:uuid proximity:currentBeacon.proximity]];
+		//		NSString *jsonBeacons = [self beaconJSONRepresentation:beacons];
+		[self executeJavascriptOnWebsite:minor major:major uuid:uuid proximity:currentBeacon.proximity];
+		self.beaconThatIsBeingPresented = currentBeacon;
+	}
+	
+}
+
+#pragma mark - Javascript stuff
+
 - (void) processJavascriptQueue
 {
 	if (self.webviewDelegate.webviewIsReady && self.webviewJavascriptQueue.count > 0) {
@@ -173,26 +198,7 @@
 }
 
 
--(void)locationManager:(CLLocationManager*)manager
-       didRangeBeacons:(NSArray*)beacons
-              inRegion:(CLBeaconRegion*)region
-{
-    CLBeacon *currentBeacon = [beacons firstObject];
-	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: nil;
-	
-	NSString *uuid = currentBeacon.proximityUUID.UUIDString;
-	int major = [currentBeacon.major intValue];
-	int minor = [currentBeacon.minor intValue];
-	
-	if (currentBeacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %d, minor: %d, promixity: %d", major, minor, (int)currentBeacon.proximity]];
-	
-	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
-		[self mlog:@"Presenting!"];
-//		NSString *jsonBeacons = [self beaconJSONRepresentation:beacons];
-		[self executeJavascriptOnWebsite:minor major:major uuid:uuid proximity:currentBeacon.proximity];
-		self.beaconThatIsBeingPresented = currentBeacon;
-	}
-}
+
 
 - (NSString *) beaconJSONRepresentation: (NSArray *)beacons {
 	NSMutableArray *output = [NSMutableArray new];
@@ -256,6 +262,22 @@
 	 show];
 }
 
+-(void)sendLocalNotificationWithMessage: (NSString *)message {  // Bind this method to UIButton action
+    UILocalNotification *notification = [[UILocalNotification alloc] init];
+    notification.alertBody = message;
+	[self mlog:[NSString stringWithFormat:@"Presenting push notification with message: %@", message]];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+}
+
+- (NSString *)getMessageForBeaconWithMajor:(int)major minor:(int)minor uuid:(NSString *)uuid proximity:(CLProximity)proximity {
+	// here we will call the actual webservice and do stuff. For now we just show something.
+	NSString *message = [NSString stringWithFormat:@"Beacon: major: %d, minor: %d, promixity: %d", major, minor, (int)proximity];
+	NSDate *now = [NSDate date];
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    return [NSString stringWithFormat:@"%@: %@", [dateFormatter stringFromDate: now], message];
+}
 
 
 @end
