@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iGg-Ei-iVS">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iGg-Ei-iVS">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -37,6 +37,12 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iGg-Ei-iVS" firstAttribute="leading" secondItem="Up4-6b-MQx" secondAttribute="leading" id="8l5-U8-UWh"/>
+                            <constraint firstItem="y5D-wr-4E0" firstAttribute="top" secondItem="iGg-Ei-iVS" secondAttribute="bottom" id="KqI-68-fuh"/>
+                            <constraint firstAttribute="trailing" secondItem="iGg-Ei-iVS" secondAttribute="trailing" id="hFJ-43-vwX"/>
+                            <constraint firstItem="iGg-Ei-iVS" firstAttribute="top" secondItem="Up4-6b-MQx" secondAttribute="top" id="nbh-Sh-CYd"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="textview" destination="qGO-6H-c7f" id="Lhs-gR-EsJ"/>
