@@ -161,7 +161,9 @@
 	
 	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
 		[self mlog:@"Presenting!"];
-		[self sendLocalNotificationWithMessage:[self getMessageForBeaconWithMajor:major minor:minor uuid:uuid proximity:currentBeacon.proximity]];
+		 [self getMessageForBeaconWithMajor:major minor:minor uuid:uuid proximity:currentBeacon.proximity success:^(NSString *message) {
+			 [self sendLocalNotificationWithMessage:message];
+		 }];
 		//		NSString *jsonBeacons = [self beaconJSONRepresentation:beacons];
 		[self executeJavascriptOnWebsite:minor major:major uuid:uuid proximity:currentBeacon.proximity];
 		self.beaconThatIsBeingPresented = currentBeacon;
@@ -187,7 +189,9 @@
 - (void)executeJavascriptOnWebsite:(int)minor major:(int)major uuid:(NSString *)uuid proximity:(CLProximity)proximity {
 	NSString *apiCall = [NSString stringWithFormat:@"beacon('%@', %d, %d, '%@', %d);", uuid, major, minor, self.deviceUUID, (int)proximity];
 	
-	if (self.webviewDelegate.webviewIsReady) {
+	UIApplicationState state = [[UIApplication sharedApplication] applicationState]; //check if we're in the foreground or the backgorund
+
+	if (self.webviewDelegate.webviewIsReady && state == UIApplicationStateActive) {
 		[self.webview stringByEvaluatingJavaScriptFromString:apiCall];
 	} else {
 		[self mlog:@"webview not ready, adding call to queue"];
@@ -269,14 +273,36 @@
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
 }
 
-- (NSString *)getMessageForBeaconWithMajor:(int)major minor:(int)minor uuid:(NSString *)uuid proximity:(CLProximity)proximity {
+- (void)getMessageForBeaconWithMajor:(int)major minor:(int)minor uuid:(NSString *)uuid proximity:(CLProximity)proximity success:(void (^)(NSString *message))completionBlock {
 	// here we will call the actual webservice and do stuff. For now we just show something.
+	/*
 	NSString *message = [NSString stringWithFormat:@"Beacon: major: %d, minor: %d, promixity: %d", major, minor, (int)proximity];
 	NSDate *now = [NSDate date];
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setDateStyle:NSDateFormatterNoStyle];
     [dateFormatter setDateFormat:@"HH:mm:ss"];
     return [NSString stringWithFormat:@"%@: %@", [dateFormatter stringFromDate: now], message];
+	*/
+	
+	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.websiteURL]];
+	AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+	NSString *restAPI = [NSString stringWithFormat:@"/beacon/%@/%d/%d", uuid, major, minor];
+	
+	[self mlog:@"performing call to webservice"];
+	
+	[manager GET:restAPI parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//		[self mlog:[NSString stringWithFormat:@"JSON: %@", responseObject]];
+		
+		NSDictionary *response = (NSDictionary *)responseObject;
+		NSString *title = response[@"title"];
+		
+        dispatch_async( dispatch_get_main_queue(), ^{
+			completionBlock(title);
+		});
+		
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		[self mlog:[NSString stringWithFormat:@"Error: %@", error]];
+	}];
 }
 
 
