@@ -321,7 +321,9 @@
 }
 
 -(void)sendLocalNotificationWithMessage: (NSString *)message {
-	if (_allowLockscreenNotifications) {
+	UIApplicationState state = [[UIApplication sharedApplication] applicationState]; //check if we're in the foreground or the backgorund
+	
+	if (_allowLockscreenNotifications && state != UIApplicationStateActive) {
 		UILocalNotification *notification = [[UILocalNotification alloc] init];
 		notification.alertBody = message;
 		[self mlog:[NSString stringWithFormat:@"Presenting push notification with message: %@", message]];
