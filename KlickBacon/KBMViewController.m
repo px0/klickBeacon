@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSUUID *beaconUUID;
 @property (strong, nonatomic) NSUUID *deviceUUID;
 @property (strong, nonatomic) NSString *websiteURL;
+@property (nonatomic) BOOL allowLockscreenNotifications;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLBeaconRegion *region;
 @property (strong, nonatomic) CLBeacon *beaconThatIsBeingPresented;
@@ -30,10 +31,12 @@
 
 - (void)loadUserDefaults
 {
+	[self mlog:@"Loading user defaults"];
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.beaconUUID = [[NSUUID alloc] initWithUUIDString:[defaults objectForKey:@"uuid"]];
     self.websiteURL = [defaults objectForKey:@"websiteurl"];
 	self.deviceUUID = [defaults objectForKey:@"deviceuuid"] ?: [[UIDevice currentDevice] identifierForVendor];
+	self.allowLockscreenNotifications = [defaults boolForKey:@"allowLockscreenNotifications"];
 	[defaults synchronize];
 }
 
@@ -42,6 +45,11 @@
 {
     [super viewDidLoad];
 	[self loadUserDefaults];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+               selector:@selector(loadUserDefaults)
+                   name:NSUserDefaultsDidChangeNotification
+                 object:nil];
+	
 	[self setupDebugGesture];
 	[self checkCanDeviceSupportAppBackgroundRefresh];
 	[self checkLocationServicesEnabledAndAuthorized];
@@ -266,24 +274,16 @@
 	 show];
 }
 
--(void)sendLocalNotificationWithMessage: (NSString *)message {  // Bind this method to UIButton action
-    UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.alertBody = message;
-	[self mlog:[NSString stringWithFormat:@"Presenting push notification with message: %@", message]];
-    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+-(void)sendLocalNotificationWithMessage: (NSString *)message {
+	if (_allowLockscreenNotifications) {
+		UILocalNotification *notification = [[UILocalNotification alloc] init];
+		notification.alertBody = message;
+		[self mlog:[NSString stringWithFormat:@"Presenting push notification with message: %@", message]];
+		[[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+	}
 }
 
 - (void)getMessageForBeaconWithMajor:(int)major minor:(int)minor uuid:(NSString *)uuid proximity:(CLProximity)proximity success:(void (^)(NSString *message))completionBlock {
-	// here we will call the actual webservice and do stuff. For now we just show something.
-	/*
-	NSString *message = [NSString stringWithFormat:@"Beacon: major: %d, minor: %d, promixity: %d", major, minor, (int)proximity];
-	NSDate *now = [NSDate date];
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
-    [dateFormatter setDateFormat:@"HH:mm:ss"];
-    return [NSString stringWithFormat:@"%@: %@", [dateFormatter stringFromDate: now], message];
-	*/
-	
 	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.websiteURL]];
 	AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
 	NSString *restAPI = [NSString stringWithFormat:@"/beacon/%@/%d/%d", uuid, major, minor];
@@ -291,8 +291,6 @@
 	[self mlog:@"performing call to webservice"];
 	
 	[manager GET:restAPI parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//		[self mlog:[NSString stringWithFormat:@"JSON: %@", responseObject]];
-		
 		NSDictionary *response = (NSDictionary *)responseObject;
 		NSString *title = response[@"title"];
 		
