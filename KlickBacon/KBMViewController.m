@@ -108,7 +108,7 @@
 
 - (void)loadWebsite
 {
-	self.webviewDelegate = [KBMWebViewDelegate new];
+	self.webviewDelegate = [[KBMWebViewDelegate alloc] initWithProxy:self];
 	self.webview.delegate = self.webviewDelegate;
 	
 	NSURL *url;
@@ -121,7 +121,7 @@
 	[self.webview loadRequest:[NSURLRequest
                                requestWithURL:url
                                cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                               timeoutInterval:60.0
+                               timeoutInterval:10.0
                                ]
      ];
 }
@@ -200,11 +200,23 @@
 	[self.locationManager stopRangingBeaconsInRegion:self.region];
 }
 
+-(CLBeacon*)getBestBeacon:(NSArray*)beacons {
+    CLBeacon * best = nil;
+    
+    for(int i = 0; i < [beacons count]; i++) {
+        CLBeacon * cur = [beacons objectAtIndex:i];
+        if(cur.rssi && (!best || cur.rssi > best.rssi))
+            best = cur;
+    }
+    
+    return best;
+}
+
 -(void)locationManager:(CLLocationManager*)manager
        didRangeBeacons:(NSArray*)beacons
               inRegion:(CLBeaconRegion*)region
 {
-    CLBeacon *currentBeacon = [beacons firstObject];
+    CLBeacon *currentBeacon = [self getBestBeacon:beacons];
 	self.beaconThatIsBeingPresented = self.beaconThatIsBeingPresented ?: nil;
 	
 	NSString *uuid = currentBeacon.proximityUUID.UUIDString;
@@ -351,5 +363,12 @@
 	}];
 }
 
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    self.beaconThatIsBeingPresented = nil;
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [self performSelector:@selector(loadWebsite) withObject:nil afterDelay:1.0];
+}
 
 @end

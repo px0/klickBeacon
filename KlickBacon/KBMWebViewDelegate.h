@@ -10,4 +10,6 @@
 
 @interface KBMWebViewDelegate : NSObject <UIWebViewDelegate>
 @property BOOL webviewIsReady;
+@property (weak, nonatomic) id<UIWebViewDelegate> delegate;
+-(instancetype)initWithProxy:(id<UIWebViewDelegate>)delegate;
 @end
