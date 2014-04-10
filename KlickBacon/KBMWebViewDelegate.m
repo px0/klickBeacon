@@ -39,14 +39,15 @@
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
 	[SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
-    
-    if(self.delegate) [self.delegate webViewDidStartLoad:webView];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	[SVProgressHUD dismiss];
 	self.webviewIsReady = true;
-}
+	
+	[[NSNotificationCenter defaultCenter]
+	 postNotificationName:@"refresh"
+	 object:self];}
 
 @end

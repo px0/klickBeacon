@@ -96,6 +96,11 @@
                    name:NSUserDefaultsDidChangeNotification
                  object:nil];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(resetEverything)
+												 name:@"refresh"
+											   object:nil];
+	
 	[self setupDebugGesture];
 	[self checkCanDeviceSupportAppBackgroundRefresh];
 	[self checkLocationServicesEnabledAndAuthorized];
@@ -195,8 +200,9 @@
 
 -(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)region
 {
-    [self mlog:(@"exit region!!!")];
-	[self.locationManager stopRangingBeaconsInRegion:self.region];
+	//TODO: This is still broken. Investigate http://beekn.net/2013/11/ibeacon-round-up-move-to-me/
+//    [self mlog:(@"exit region!!!")];
+//	[self.locationManager stopRangingBeaconsInRegion:self.region];
 }
 
 -(CLBeacon*)getBestBeacon:(NSArray*)beacons {
@@ -234,6 +240,11 @@
 		self.beaconThatIsBeingPresented = currentBeacon;
 	}
 	
+}
+
+- (void) resetEverything {
+	self.webviewJavascriptQueue = [NSMutableArray new];
+	self.beaconThatIsBeingPresented = nil;
 }
 
 #pragma mark - Javascript stuff
