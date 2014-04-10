@@ -20,21 +20,10 @@
     return self;
 }
 
--(instancetype)initWithProxy:(id<UIWebViewDelegate>)delegate {
-    self = [super init];
-    if(self) {
-        self.webviewIsReady = NO;
-        self.delegate = delegate;
-    }
-    
-    return self;
-}
-
 #pragma mark - webview delegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
 	NSLog(@"%@", request);
-	
 	return YES;
 }
 
@@ -42,7 +31,8 @@
 {
     [SVProgressHUD showErrorWithStatus: [error localizedDescription]];
     
-    if(self.delegate) [self.delegate webView:webView didFailLoadWithError:error];
+	[webView performSelector:@selector(reload) withObject:nil afterDelay:1.0];
+	
 	NSLog(@"%@", [error description]);
 }
 
@@ -57,7 +47,6 @@
 {
 	[SVProgressHUD dismiss];
 	self.webviewIsReady = true;
-    if(self.delegate) [self.delegate webViewDidFinishLoad:webView];
 }
 
 @end

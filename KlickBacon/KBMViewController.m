@@ -108,7 +108,7 @@
 
 - (void)loadWebsite
 {
-	self.webviewDelegate = [[KBMWebViewDelegate alloc] initWithProxy:self];
+	self.webviewDelegate = [[KBMWebViewDelegate alloc] init];
 	self.webview.delegate = self.webviewDelegate;
 	
 	NSURL *url;
@@ -121,8 +121,7 @@
 	[self.webview loadRequest:[NSURLRequest
                                requestWithURL:url
                                cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                               timeoutInterval:10.0
-                               ]
+                               timeoutInterval:10.0]
      ];
 }
 
@@ -304,6 +303,21 @@
     return YES;
 }
 
+- (BOOL)canBecomeFirstResponder
+{
+	return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+	if (motion == UIEventSubtypeMotionShake)
+	{
+		[self mlog:@"SHAKE SHAKE SHAKE"];
+		[self reloadWebsite];
+	}
+}
+
+
 
 #pragma mark - Misc
 
@@ -363,12 +377,21 @@
 	}];
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView {
-    self.beaconThatIsBeingPresented = nil;
-}
-
--(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [self performSelector:@selector(loadWebsite) withObject:nil afterDelay:1.0];
+- (void) reloadWebsite {
+	RIButtonItem *okayButton = [RIButtonItem itemWithLabel:@"Reload"];
+	okayButton.action =^{
+		[self.webview reload];
+	};
+	
+	RIButtonItem *cancelButton = [RIButtonItem itemWithLabel:@"Cancel"];
+	
+	NSString *message = @"Do you want to reload the website?";
+	
+	[[[UIAlertView alloc] initWithTitle:@"Error!"
+								message:message
+					   cancelButtonItem:cancelButton
+					   otherButtonItems:okayButton, nil]
+	 show];
 }
 
 @end
