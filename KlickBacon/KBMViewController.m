@@ -31,6 +31,8 @@
 - (IBAction)reloadBtnTap:(id)sender;
 - (IBAction)fakePingBtnTap:(id)sender;
 
+@property (strong, nonatomic) CLBeacon * emptyBeacon;
+
 @end
 
 @implementation KBMViewController
@@ -95,6 +97,8 @@
 {
     [super viewDidLoad];
 	
+    self.emptyBeacon = [[CLBeacon alloc] init];
+    
 	[self registerDefaultsFromSettingsBundle];
 	[self loadUserDefaults];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -219,6 +223,7 @@
         if(cur.rssi && (!best || cur.rssi > best.rssi))
             best = cur;
     }
+    if(!best) return self.emptyBeacon;
     
     return best;
 }
@@ -236,7 +241,13 @@
 	
 	if (currentBeacon)	[self mlog: [NSString stringWithFormat:@"Beacon: major: %d, minor: %d, promixity: %d", major, minor, (int)currentBeacon.proximity]];
 	
-	if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
+    if(currentBeacon == self.emptyBeacon && self.beaconThatIsBeingPresented != self.emptyBeacon) {
+        [self mlog:@"UnPresenting!"];
+        [self executeJavascriptOnWebsite:minor major:major uuid:uuid proximity:currentBeacon.proximity];
+        
+		self.beaconThatIsBeingPresented = currentBeacon;
+        
+    } else if (currentBeacon && currentBeacon.isInRange && ![currentBeacon isEqualToBeacon:self.beaconThatIsBeingPresented]) {
 		[self mlog:@"Presenting!"];
 		 [self getMessageForBeaconWithMajor:major minor:minor uuid:uuid proximity:currentBeacon.proximity success:^(NSString *message) {
 			 [self sendLocalNotificationWithMessage:message];
