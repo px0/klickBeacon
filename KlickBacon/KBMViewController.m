@@ -25,6 +25,12 @@
 @property (strong, nonatomic) CLBeacon *beaconThatIsBeingPresented;
 @property (strong, nonatomic) KBMWebViewDelegate *webviewDelegate;
 @property (strong, nonatomic) NSMutableArray *webviewJavascriptQueue;
+
+
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *debugItems;
+- (IBAction)reloadBtnTap:(id)sender;
+- (IBAction)fakePingBtnTap:(id)sender;
+
 @end
 
 @implementation KBMViewController
@@ -303,31 +309,17 @@
     [self.view addGestureRecognizer:doubleFingerDoubleTap];
 }
 
-- (void) handleDoubleTap
-{
-	NSLog(@"double tap!");
-	self.textview.hidden = !self.textview.isHidden;
-}
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    return YES;
-}
-
-- (BOOL)canBecomeFirstResponder
 {
 	return YES;
 }
 
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+- (void) handleDoubleTap
 {
-	if (motion == UIEventSubtypeMotionShake)
-	{
-		[self mlog:@"SHAKE SHAKE SHAKE"];
-		[self reloadWebsite];
-	}
+	[self.debugItems each:^(UIView *item) {
+		item.hidden = !item.isHidden;
+	}];
 }
-
 
 
 #pragma mark - Misc
@@ -391,7 +383,7 @@
 - (void) reloadWebsite {
 	RIButtonItem *okayButton = [RIButtonItem itemWithLabel:@"Reload"];
 	okayButton.action =^{
-		[self.webview reload];
+		[self loadWebsite];
 	};
 	
 	RIButtonItem *cancelButton = [RIButtonItem itemWithLabel:@"Cancel"];
@@ -405,4 +397,11 @@
 	 show];
 }
 
+- (IBAction)reloadBtnTap:(id)sender {
+	[self reloadWebsite];
+}
+
+- (IBAction)fakePingBtnTap:(id)sender {
+	[self.webview stringByEvaluatingJavaScriptFromString:@"addTest()"];
+}
 @end

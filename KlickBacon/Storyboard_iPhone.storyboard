@@ -25,7 +25,7 @@
                                 </connections>
                             </webView>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGO-6H-c7f">
-                                <rect key="frame" x="0.0" y="328" width="320" height="240"/>
+                                <rect key="frame" x="0.0" y="152" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -35,6 +35,28 @@
                                     <outlet property="delegate" destination="06M-sR-C1B" id="jQd-b4-u4v"/>
                                 </connections>
                             </textView>
+                            <button hidden="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LhS-9S-Rwb">
+                                <rect key="frame" x="20" y="114" width="49" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Reload">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="reloadBtnTap:" destination="06M-sR-C1B" eventType="touchUpInside" id="RyX-Fb-6G9"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OMM-6m-JB3">
+                                <rect key="frame" x="77" y="114" width="69" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Fake Ping">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fakePingBtnTap:" destination="06M-sR-C1B" eventType="touchUpInside" id="hgq-Ld-xUj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -47,6 +69,9 @@
                     <connections>
                         <outlet property="textview" destination="qGO-6H-c7f" id="Lhs-gR-EsJ"/>
                         <outlet property="webview" destination="iGg-Ei-iVS" id="BzM-pU-3Co"/>
+                        <outletCollection property="debugItems" destination="OMM-6m-JB3" id="wdJ-d2-iCy"/>
+                        <outletCollection property="debugItems" destination="LhS-9S-Rwb" id="gh5-JX-3xA"/>
+                        <outletCollection property="debugItems" destination="qGO-6H-c7f" id="PfY-hB-Xf8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rkh-wB-50B" userLabel="First Responder" sceneMemberID="firstResponder"/>
