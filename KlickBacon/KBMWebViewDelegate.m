@@ -9,6 +9,12 @@
 #import "KBMWebViewDelegate.h"
 #import "SVProgressHud.h"
 
+@interface KBMWebViewDelegate ()
+
+@property (strong, nonatomic) NSURLRequest *lastRequest;
+
+@end
+
 @implementation KBMWebViewDelegate
 
 - (instancetype)init
@@ -24,6 +30,9 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
 	NSLog(@"%@", request);
+    
+    self.lastRequest = request;
+    
 	return YES;
 }
 
@@ -31,7 +40,7 @@
 {
     [SVProgressHUD showErrorWithStatus: [error localizedDescription]];
     
-	[webView performSelector:@selector(reload) withObject:nil afterDelay:1.0];
+	[self performSelector:@selector(reloadLastRequestOnWebview:) withObject:webView afterDelay:1.0];
 	
 	NSLog(@"%@", [error description]);
 }
@@ -49,5 +58,10 @@
 	[[NSNotificationCenter defaultCenter]
 	 postNotificationName:@"refresh"
 	 object:self];}
+
+-(void) reloadLastRequestOnWebview:(UIWebView*)webview {
+    if(self.lastRequest)
+        [webview loadRequest:self.lastRequest];
+}
 
 @end
