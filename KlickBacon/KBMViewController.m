@@ -35,6 +35,9 @@
 
 @implementation KBMViewController
 
+BOOL _isInsideRegion; // flag to prevent duplicate sending of notification
+
+
 - (void)registerDefaultsFromSettingsBundle // we need this for the first launch when the settings haven't been read yet
 {
 	NSLog(@"Registering default values from Settings.bundle");
@@ -154,7 +157,6 @@
 		// get status update right away for UI
 		[self.locationManager requestStateForRegion:self.region];
 		[self mlog:(@"starting monitoring")];
-		
 	}
 	else {
 		NSLog(@"This device does not support monitoring beacon regions");
@@ -200,15 +202,23 @@
 
 - (void)locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region
 {
-    [self mlog:@"enter region!!!"];
-	[self.locationManager startRangingBeaconsInRegion:self.region];
+	if (!_isInsideRegion)
+	{
+		[self mlog:@"enter region!!!"];
+		[self.locationManager startRangingBeaconsInRegion:self.region];
+		_isInsideRegion = YES;
+	}
 }
 
 -(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)region
 {
-	//TODO: This is still broken. Investigate http://beekn.net/2013/11/ibeacon-round-up-move-to-me/
-//    [self mlog:(@"exit region!!!")];
-//	[self.locationManager stopRangingBeaconsInRegion:self.region];
+	//TODO: This is still wonky. Investigate http://beekn.net/2013/11/ibeacon-round-up-move-to-me/
+	if (_isInsideRegion)
+	{
+		[self mlog:(@"exit region!!!")];
+//		[self.locationManager stopRangingBeaconsInRegion:self.region];
+		_isInsideRegion = NO;
+	}
 }
 
 -(CLBeacon*)getBestBeacon:(NSArray*)beacons {
@@ -241,7 +251,6 @@
 		 [self getMessageForBeaconWithMajor:major minor:minor uuid:uuid proximity:currentBeacon.proximity success:^(NSString *message) {
 			 [self sendLocalNotificationWithMessage:message];
 		 }];
-		//		NSString *jsonBeacons = [self beaconJSONRepresentation:beacons];
 		[self executeJavascriptOnWebsite:minor major:major uuid:uuid proximity:currentBeacon.proximity];
 		self.beaconThatIsBeingPresented = currentBeacon;
 	}
@@ -281,19 +290,6 @@
 	}
 	
 	[self processJavascriptQueue];
-}
-
-
-
-
-- (NSString *) beaconJSONRepresentation: (NSArray *)beacons {
-	NSMutableArray *output = [NSMutableArray new];
-	
-	for (CLBeacon *b in beacons) {
-		[output addObject:[b toJSON]];
-	}
-	
-	return [output toJSON];
 }
 
 
@@ -402,6 +398,10 @@
 }
 
 - (IBAction)fakePingBtnTap:(id)sender {
-	[self.webview stringByEvaluatingJavaScriptFromString:@"addTest()"];
+	[self.webview stringByEvaluatingJavaScriptFromString:@"addTest();"];
+}
+
+- (IBAction)clearBeaconsBtnTap:(id)sender {
+	[self.webview stringByEvaluatingJavaScriptFromString:@"clearBeacons();"];
 }
 @end

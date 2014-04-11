@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -20,7 +20,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="CfE-Ec-7AF"/>
                                 </connections>
                             </webView>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" id="0iL-c1-YI3">
+                            <textView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" id="0iL-c1-YI3">
                                 <rect key="frame" x="338" y="171" width="410" height="833"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -53,6 +53,17 @@
                                     <action selector="fakePingBtnTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BER-Is-UZv"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="a0c-Qf-m1E">
+                                <rect key="frame" x="229" y="247" width="101" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Clear Beacons">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearBeaconsBtnTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SgL-aJ-CR4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -62,6 +73,7 @@
                         <outletCollection property="debugItems" destination="0iL-c1-YI3" id="xqa-cO-2Ay"/>
                         <outletCollection property="debugItems" destination="MU3-X8-88J" id="ZCO-IA-UbO"/>
                         <outletCollection property="debugItems" destination="t7T-zl-e0G" id="1jK-o1-YXf"/>
+                        <outletCollection property="debugItems" destination="a0c-Qf-m1E" id="AsT-Nn-z0h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
